@@ -1,0 +1,20 @@
+.main {
+    display: flex;
+    width: 272px;
+    flex-direction: column;
+    position: relative;
+}
+.price {
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+.counter {
+    position: absolute;
+    right: 0;
+}
+.desc {
+    width: 272px;
+    height: 48px;
+    text-align: center;
+}
