@@ -6,13 +6,14 @@ import PropTypes from 'prop-types';
 class HeaderButton extends React.Component {
     render() {
         return (
-            <div className={headerStyle.button}>
+            <a href="#" className={headerStyle.button}>
 
                 {this.props.icon}
                 <div>
                     <p className={this.props.type ==='primary' ? headerStyle.fontP : headerStyle.fontS}>{this.props.text}</p>
                 </div>
-            </div>
+
+            </a>
         );
     }
 }

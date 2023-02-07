@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 class BurgerConstructor extends  React.Component {
     render () {
         return(
-            <div className = {s.main}>
+            <div className = {s.main + " ml-5"}>
                 <div className={s.cont + " ml-4 mt-25"}>
                        {this.props.data.map((el) => {
                            if(el._id ==='60666c42cc7b410027a1a9b1')

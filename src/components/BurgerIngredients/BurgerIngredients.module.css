@@ -11,7 +11,7 @@
     background: #131316;
     /* interface/accent */
 
-    border: 2px solid #4C4CFF;
+
 }
 .header {
    /* position: absolute;*/
@@ -37,9 +37,7 @@
 
     color: #F2F2F3;
 }
-.tab {
-    display: flex;
-}
+
 .items {
     display: flex;
     flex-wrap: wrap;
