@@ -3,19 +3,15 @@ import headerStyle from './HeaderButton.module.css';
 import PropTypes from 'prop-types';
 
 
-class HeaderButton extends React.Component {
-    render() {
+function HeaderButton (props) {
         return (
             <a href="#" className={headerStyle.button}>
-
-                {this.props.icon}
+                {props.icon}
                 <div>
-                    <p className={this.props.type ==='primary' ? headerStyle.fontP : headerStyle.fontS}>{this.props.text}</p>
+                    <p className={props.type ==='primary' ? headerStyle.fontP : headerStyle.fontS}>{props.text}</p>
                 </div>
-
             </a>
         );
-    }
 }
 
 HeaderButton.propTypes = {

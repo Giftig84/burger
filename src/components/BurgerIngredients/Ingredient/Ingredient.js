@@ -1,12 +1,25 @@
 import React from 'react';
 import { Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import  s from './Ingredient.module.css'
+
 import PropTypes from 'prop-types';
+import Modal from "../../Modal/Modal";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
 
-function Ingredients (props) {
+function Ingredient (props) {
 
+    const [isModal, setModal] = React.useState(false);
+
+    function openModal () {
+        setModal(true);
+    };
+
+    function closeModal (e) {
+        e.stopPropagation();
+        setModal(false);
+    };
         return(
-            <div className={s.main}>
+            <div className={s.main} onClick={openModal}>
                <div>
                    {props.count > 0 &&
                        <div className={s.counter}>
@@ -21,19 +34,20 @@ function Ingredients (props) {
                     <CurrencyIcon/>
                 </div>
                 <div className={s.desc + " mt-1"}>
-                    <p className={"mt-1"}>{props.desc}</p>
+                    <p className={"mt-1"}>{props.name}</p>
                 </div>
-
+                {isModal &&
+                    <Modal closeModal={closeModal}> <IngredientDetails {...props}/> </Modal>}
             </div>
         )
 
 }
-Ingredients.propTypes = {
+Ingredient.propTypes = {
         count: PropTypes.number,
         price: PropTypes.number,
         title: PropTypes.string,
-        desc: PropTypes.string,
+        name: PropTypes.string,
         image: PropTypes.string
 
 }
-export  default Ingredients ;
+export  default Ingredient ;

@@ -1,0 +1,30 @@
+.main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.header {
+    width: 640px;
+
+}
+
+.name {
+    width: 520px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.desc {
+    width: 520px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 20px;
+
+}
+
+.descItem {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}

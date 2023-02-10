@@ -5,13 +5,13 @@ import FinishOrder from './FinishOrder/FinishOrder';
 import PropTypes from 'prop-types';
 
 
-class BurgerConstructor extends  React.Component {
-    render () {
+function BurgerConstructor (props) {
+
         return(
             <div className = {s.main + " ml-5"}>
                 <div className={s.cont + " ml-4 mt-25"}>
-                       {this.props.data.map((el) => {
-                           if(el._id ==='60666c42cc7b410027a1a9b1')
+                       {props.data.map((el) => {
+                           if(el.name === "Краторная булка N-200i")
                                    return (
                                        <div className={"ml-8"} key={el._id}>
                                            <ConstructorElement
@@ -27,7 +27,7 @@ class BurgerConstructor extends  React.Component {
                             })
                        }
                        <div className={s.scroll }>
-                           {this.props.data.map((el) => {
+                           {props.data.map((el) => {
                                if(el._id !=='60666c42cc7b410027a1a9b1')
                                    return (
                                        <div className={ s.center +" mr-2"} key={el._id}>
@@ -46,8 +46,8 @@ class BurgerConstructor extends  React.Component {
                            })
                            }
                        </div>
-                        {this.props.data.map((el) => {
-                            if(el._id ==='60666c42cc7b410027a1a9b1')
+                        {props.data.map((el) => {
+                            if(el.name ==="Краторная булка N-200i")
                                 return (
                                     <div className={"ml-8"} key={el._id}>
                                         <ConstructorElement
@@ -72,7 +72,7 @@ class BurgerConstructor extends  React.Component {
                 </div>
             </div>
 
-        )}
+        )
 }
 BurgerConstructor.propTypes = {
     data: PropTypes.array

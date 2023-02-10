@@ -3,8 +3,8 @@ import { Logo, BurgerIcon,ListIcon,ProfileIcon } from '@ya.praktikum/react-devel
 import HeaderButton from "./HeaderButton/HeaderButton";
 import  s from "./AppHeader.module.css"
 
-class AppHeader extends React.Component {
-    render() {
+function AppHeader () {
+
         return (
             <header className={s.header}>
                 <div className={s.center}>
@@ -29,7 +29,7 @@ class AppHeader extends React.Component {
                 </div>
             </header>
         );
-    }
+
 }
 
 export default AppHeader;
