@@ -13,15 +13,30 @@ function BurgerIngredients (props) {
                </div>
                <Tabs/>
                <div className={s.scroll}>
-                   <IngrSection name={"Булки"} data={props.data}/>
-                   <IngrSection name={"Соусы"} data={props.data}/>
-                   <IngrSection name={"Начинки"} data={props.data}/>
+                   <IngrSection name={"Булки"} arrIngredient={props.arrIngredient}/>
+                   <IngrSection name={"Соусы"} arrIngredient={props.arrIngredient}/>
+                   <IngrSection name={"Начинки"} arrIngredient={props.arrIngredient}/>
                </div>
            </div>
        )
 
 }
+
+const dataIngredient =  {
+        _id: PropTypes.string.isRequired ,
+        name: PropTypes.string,
+        type: PropTypes.string,
+        proteins: PropTypes.number,
+        flat: PropTypes.number,
+        carbohydrates: PropTypes.number,
+        calories: PropTypes.number,
+        price: PropTypes.number,
+        image: PropTypes.string,
+        image_mobile: PropTypes.string,
+        image_large: PropTypes.string,
+        __v: PropTypes.number
+    }
 BurgerIngredients.propTypes = {
-    data: PropTypes.array
+    arrIngredient: PropTypes.arrayOf(PropTypes.shape(dataIngredient))
 };
  export  default BurgerIngredients ;

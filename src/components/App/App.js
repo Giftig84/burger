@@ -8,27 +8,38 @@ import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 function App () {
     const urlData = "https://norma.nomoreparties.space/api/ingredients";
 
-    const [state, setState] = React.useState({
+    const [ingredient, setArrIngredient] = React.useState({
         isLoading: false,
         hasError: false,
-        data: []
+        arrIngredient: []
     });
 
     React.useEffect(()=>{
-        const getIngr = async () => {
-            setState({ ...state, hasError: false, isLoading: true });
-            const res = await fetch(urlData);
-            const d = await res.json();
-            setState({ ...state, data: d.data, isLoading: false });
-        };
-        getIngr();
+        try{
+            const getIngr = async () => {
+                setArrIngredient(({ ...ingredient, hasError: false, isLoading: true }));
+                const response = await fetch(urlData);
+                if (!response .ok) {
+                    throw new Error('Ошибка получениия данных');
+                }
+                const parsedResponse = await response.json();
+                setArrIngredient({ ...ingredient, arrIngredient: parsedResponse.data, isLoading: false });
+
+            };
+            getIngr();
+        } catch (e) {
+            setArrIngredient(({ ...ingredient, hasError: true, isLoading: false }));
+            console.log('Возникла проблема с вашим fetch запросом: ', e.message);
+        }
+
+
     },[])
         return (
             <div className={s.app}>
                 <AppHeader/>
                 <main className={s.main}>
-                        <BurgerIngredients data={state.data} />
-                        <BurgerConstructor data={state.data} />
+                        <BurgerIngredients arrIngredient={ingredient.arrIngredient} />
+                        <BurgerConstructor arrIngredient={ingredient.arrIngredient} />
                 </main>
             </div>
         );

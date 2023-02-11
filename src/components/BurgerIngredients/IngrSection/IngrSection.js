@@ -18,7 +18,7 @@ function IngrSection (props) {
                     <p className="text text_type_main-medium">{props.name}</p>
                 </div>
                 <div className={s.items + " mt-6"} >
-                    { props.data.map((el)=>{
+                    { props.arrIngredient.map((el)=>{
                         if(el.type === ingrType)
                             return (
                                 <div className={s.ingr + " ml-4 mr-2"} key = {el._id} >
@@ -33,7 +33,7 @@ function IngrSection (props) {
 }
 
 IngrSection.propTypes = {
-    data: PropTypes.array,
+    arrIngredient: PropTypes.array,
     name: PropTypes.string
 };
 export  default  IngrSection;

@@ -49,9 +49,9 @@ function IngredientDetails (props) {
 IngredientDetails.propTypes = {
     title: PropTypes.string,
     name: PropTypes.string,
-    calories: PropTypes.string,
-    fat: PropTypes.string,
-    proteins: PropTypes.string,
+    calories: PropTypes.number,
+    fat: PropTypes.number,
+    proteins: PropTypes.number,
     image_large: PropTypes.string
 }
 export  default IngredientDetails ;
