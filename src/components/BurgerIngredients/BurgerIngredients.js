@@ -3,6 +3,7 @@ import  s from './BurgerIngredients.module.css';
 import PropTypes from 'prop-types';
 import IngrSection from "./IngrSection/IngrSection";
 import Tabs from "./Tabs/Tabs";
+import {dataIngredient} from "../../ImportFiles/dataIngredient";
 
 function BurgerIngredients (props) {
 
@@ -22,21 +23,7 @@ function BurgerIngredients (props) {
 
 }
 
-const dataIngredient =  {
-        _id: PropTypes.string.isRequired ,
-        name: PropTypes.string,
-        type: PropTypes.string,
-        proteins: PropTypes.number,
-        flat: PropTypes.number,
-        carbohydrates: PropTypes.number,
-        calories: PropTypes.number,
-        price: PropTypes.number,
-        image: PropTypes.string,
-        image_mobile: PropTypes.string,
-        image_large: PropTypes.string,
-        __v: PropTypes.number
-    }
 BurgerIngredients.propTypes = {
-    arrIngredient: PropTypes.arrayOf(PropTypes.shape(dataIngredient))
+    arrIngredient: PropTypes.arrayOf(PropTypes.shape(dataIngredient).isRequired).isRequired
 };
  export  default BurgerIngredients ;
