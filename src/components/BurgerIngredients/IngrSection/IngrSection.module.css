@@ -1,0 +1,10 @@
+.items {
+    display: flex;
+    flex-wrap: wrap;
+    width: 600px;
+    overflow: hidden;
+}
+.ingr {
+    width: 272px;
+    display: flex;
+}
