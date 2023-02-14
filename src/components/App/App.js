@@ -4,6 +4,7 @@ import AppHeader from '../AppHeader/AppHeader';
 import s from './app.module.css'
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
+import {IngredientContext} from "../../ImportFiles/IngredientContext";
 
 function App () {
     const urlData = "https://norma.nomoreparties.space/api/ingredients";
@@ -12,6 +13,10 @@ function App () {
         isLoading: false,
         hasError: false,
         arrIngredient: []
+    });
+    //эмуляция заказа
+    const [order, setOrder] = React.useState({
+            arrIngredient: []
     });
 
     React.useEffect(()=>{
@@ -24,6 +29,7 @@ function App () {
                 }
                 const parsedResponse = await response.json();
                 setArrIngredient({ ...ingredient, arrIngredient: parsedResponse.data, isLoading: false });
+                setOrder({ arrIngredient: parsedResponse.data});
 
             };
             getIngr();
@@ -37,10 +43,12 @@ function App () {
         return (
             <div className={s.app}>
                 <AppHeader/>
-                <main className={s.main}>
-                        <BurgerIngredients arrIngredient={ingredient.arrIngredient} />
-                        <BurgerConstructor arrIngredient={ingredient.arrIngredient} />
-                </main>
+                <IngredientContext.Provider value={{order, setOrder}}>
+                    <main className={s.main}>
+                            <BurgerIngredients arrIngredient={ingredient.arrIngredient} />
+                            <BurgerConstructor />
+                    </main>
+                </IngredientContext.Provider>
             </div>
         );
 

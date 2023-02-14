@@ -4,10 +4,23 @@ import  s from './BurgerConstructor.module.css';
 import FinishOrder from './FinishOrder/FinishOrder';
 import PropTypes from 'prop-types';
 import {dataIngredient} from "../../ImportFiles/dataIngredient";
+import {IngredientContext} from "../../ImportFiles/IngredientContext";
 
-function BurgerConstructor (props) {
+function BurgerConstructor () {
+    const {order, setOrder} = React.useContext(IngredientContext);
+    const [totalSum, setTotalSum] = React.useState(0);
+    const [bun, setBun] = React.useState(order.arrIngredient.find(el => el.name === "Краторная булка N-200i"));
 
-    const bun = props.arrIngredient.find(el => el.name === "Краторная булка N-200i");
+    //const bun = order.arrIngredient.find(el => el.name === "Краторная булка N-200i"); + (bun.price * 2))
+
+
+    React.useEffect(()=>{
+        if (order.arrIngredient.length > 0){
+            const bun = order.arrIngredient.find(el => el.name === "Краторная булка N-200i"); //булку пока захардкодил, в т.з. нет описания логики
+            setBun(bun)
+            setTotalSum(order.arrIngredient.filter(el => el.type !== "bun").reduce((sum, el) => sum + el.price, 0) + (bun.price * 2)  );
+        } else setTotalSum(0);
+    }, [order])
 
         return(
             <div className = {s.main + " ml-5"}>
@@ -23,7 +36,7 @@ function BurgerConstructor (props) {
                                        </div>
                        }
                        <div className={s.scroll }>
-                           {props.arrIngredient.filter(el => el.type !== "bun").map((el) => {
+                           {order.arrIngredient.filter(el => el.type !== "bun").map((el) => {
                               return(
                                        <div className={ s.center +" mr-2"} key={el._id}>
 
@@ -55,7 +68,7 @@ function BurgerConstructor (props) {
 
                 </div>
                     <div className={s.fin + " mt-10 ml-4 mr-4"}>
-                        <FinishOrder totalSum ={610}></FinishOrder>
+                        <FinishOrder totalSum ={totalSum}></FinishOrder>
                     </div>
 
                 </div>
@@ -64,8 +77,8 @@ function BurgerConstructor (props) {
         )
 }
 
-BurgerConstructor.propTypes = {
-    arrIngredient: PropTypes.arrayOf(PropTypes.shape(dataIngredient).isRequired).isRequired
+IngredientContext.propTypes = {
+    arrIngredient:  PropTypes.arrayOf(PropTypes.shape(dataIngredient).isRequired).isRequired
 };
 
 export default BurgerConstructor;
