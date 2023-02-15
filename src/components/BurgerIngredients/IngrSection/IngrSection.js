@@ -3,7 +3,7 @@ import  s from './IngrSection.module.css'
 import Ingredient from "../Ingredient/Ingredient";
 import PropTypes from 'prop-types';
 
-function IngrSection (props) {
+const IngrSection = React.forwardRef((props, ref) => {
         let ingrType;
         switch (props.name){
             case "Булки": ingrType='bun'; break;
@@ -14,7 +14,7 @@ function IngrSection (props) {
 
         return(
             <>
-                <div className={ "mt-10"}>
+                <div className={ "mt-10"} ref={ref}>
                     <p className="text text_type_main-medium">{props.name}</p>
                 </div>
                 <div className={s.items + " mt-6"} >
@@ -30,7 +30,7 @@ function IngrSection (props) {
                 </div>
             </>
         )
-}
+});
 
 IngrSection.propTypes = {
     arrIngredient: PropTypes.array,
