@@ -2,12 +2,14 @@ import React from 'react';
 import  s from './OrderDetails.module.css'
 import image from '../../../../Image/IconDone.png'
 
-function OrderDetails (){
+
+function OrderDetails ({orderDetails}){
+
 
     return (
         <div className={s.main}>
             <div className={s.header +"  mt-30 "}>
-                <p className="text text_type_digits-large">034536</p>
+                <p className="text text_type_digits-large">{orderDetails.orderResponse.order.number}</p>
             </div>
 
             <div className={s.name + " mt-8"}>

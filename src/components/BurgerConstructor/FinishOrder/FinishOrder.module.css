@@ -8,3 +8,8 @@
     height: 36px;
     width: 36px;
 }
+.loader {
+    position: fixed;
+    top: 40%;
+    left: 45%;
+}
