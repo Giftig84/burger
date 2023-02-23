@@ -1,15 +1,16 @@
 import React from 'react';
 import  s from './OrderDetails.module.css'
 import image from '../../../../Image/IconDone.png'
+import {useSelector} from "react-redux";
 
 
-function OrderDetails ({orderDetails}){
+function OrderDetails (){
 
-
+const orderResponse = useSelector(state => state.constr.orderResponse)
     return (
         <div className={s.main}>
             <div className={s.header +"  mt-30 "}>
-                <p className="text text_type_digits-large">{orderDetails.orderResponse.order.number}</p>
+                <p className="text text_type_digits-large">{orderResponse.order.number}</p>
             </div>
 
             <div className={s.name + " mt-8"}>
@@ -26,7 +27,6 @@ function OrderDetails ({orderDetails}){
             <div className={s.name + " mt-2 mb-30"}>
                 <p className={"mt-1 text text_type_main-default text_color_inactive"}>Дождитесь готовности на орбитальной станции</p>
             </div>
-
         </div>
 
     )

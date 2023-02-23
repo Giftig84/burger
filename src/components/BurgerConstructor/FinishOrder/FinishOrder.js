@@ -6,53 +6,31 @@ import Modal from "../../Modal/Modal";
 import OrderDetails from "./OrderDetails/OrderDetails";
 import {IngredientContext} from "../../../ImportFiles/IngredientContext";
 import {dataIngredient} from "../../../ImportFiles/dataIngredient";
-import {BASE_URL} from "../../../ImportFiles/endPointUrl";
-import {checkResponse} from "../../../Utils/Utils";
-import ClipLoader from "react-spinners/ClipLoader";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchRequest, setStatusAction} from "../../../services/actions/apiActions";
+import  {CLEAR_ORDER, ORDER_REQUEST} from "../../../services/actions/constructorActions";
+
 function FinishOrder (props){
     const [isModal, setModal] = React.useState(false);
 
-    const {order} = React.useContext(IngredientContext);
+    const order = useSelector(state => state.constr.arrConstrIngr);
+    const dispatch = useDispatch();
 
-    const [orderDetails, setOrderDetails] = React.useState({
-        isLoading: false,
-        hasError: false,
-        orderResponse: {
-            "name": "",
-            "order": {
-                "number": 0
-            },
-            "success": true
-        }
-    });
-    const ingredients = React.useMemo(()=>order.arrIngredient.filter(el => (el.type !== "bun" || el.name === "Краторная булка N-200i")).map(el=>el._id)
+    const ingredients = React.useMemo(()=>order.map(el=>el._id)
         ,[order]);
     const send = () => {
-        try {
-            const sendOrder = async () => {
-                setOrderDetails(({ ...orderDetails, hasError: false, isLoading: true }));
-                const parsedResponse = await fetch(BASE_URL +"/orders", {
-                    body: JSON.stringify({ingredients}),
-                    headers: new Headers([
-                        ['Content-Type', 'application/json'],
-                    ]),
-                    method: 'POST',
-                }).then(checkResponse);
-
-                setOrderDetails({ ...orderDetails, orderResponse: parsedResponse, isLoading: false });
-
-            }
-            sendOrder();
-
-        }  catch (e) {
-
-                setOrderDetails({ ...orderDetails, hasError: true, isLoading: false });
-                console.log('Возникла проблема с размещение заказа: ', e.message);
-
-        }
+        dispatch(setStatusAction({hasError: false, isLoading: true}));
+        dispatch(fetchRequest("/orders",{
+            body: JSON.stringify({ingredients}),
+            headers: new Headers([
+                ['Content-Type', 'application/json'],
+            ]),
+            method: 'POST',
+        }, ORDER_REQUEST));
     };
 
-    function openModal () {
+    function openModal (e) {
+        e.stopPropagation();
         send();
         setModal(true);
     };
@@ -60,29 +38,22 @@ function FinishOrder (props){
     function closeModal (e) {
         e.stopPropagation();
         setModal(false);
+        dispatch({type: CLEAR_ORDER});
     };
 
         return (
             <div className={s.order}>
-                {orderDetails.isLoading &&
-                    <ClipLoader className={s.loader}
-                                color="#4C4CFF"
-                                loading={orderDetails.isLoading}
-                                size={250}
-                                aria-label="Loading Spinner"
-                                data-testid="loader"
-                    />}
 
                     <p className={"text text_type_main-large mr-3"}>{props.totalSum}</p>
                     <div className={s.amount_icon}>
                         <CurrencyIcon type="primary"/>
                     </div>
-                    <div className={"ml-10"} onClick={openModal}>
-                        <Button htmlType="button" type="primary" size="large">
+                    <div className={"ml-10"} >
+                        <Button htmlType="button" type="primary" size="large" onClick={openModal}>
                             Оформить заказ
                         </Button>
                         {isModal &&
-                            <Modal closeModal={closeModal}> <OrderDetails orderDetails={orderDetails}/>  </Modal>}
+                            <Modal closeModal={closeModal}> <OrderDetails/>  </Modal>}
                     </div>
             </div>
         )
