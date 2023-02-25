@@ -41,7 +41,6 @@ function FinishOrder (props){
         setModal(false);
         dispatch({type: CLEAR_ORDER});
     }
-
         return (
             <div className={s.order}>
 
