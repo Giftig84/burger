@@ -1,5 +1,5 @@
 import {
-    SET_STATUS
+    STATUS_REQUEST, STATUS_SUCCESS, STATUS_ERROR
 } from "../actions/apiActions";
 
 const defaultState = {
@@ -9,9 +9,15 @@ const defaultState = {
 
 export const apiReducer = (state = defaultState, action) =>{
     switch (action){
-        case SET_STATUS:
-            debugger;
-            return {...state, isLoading: action.payload.isLoading, hasError: action.payload.hasError };
+        case STATUS_REQUEST:
+            return {...state, isLoading: true, hasError: false };
+
+            case STATUS_SUCCESS:
+            return {...state, isLoading: false, hasError: false };
+
+            case STATUS_ERROR:
+            return {...state, isLoading: false, hasError: true };
+
         default:
             return state;
     }

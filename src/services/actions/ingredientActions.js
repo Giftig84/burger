@@ -4,6 +4,7 @@ export const UNSET_DETAILS = "UNSET_DETAILS";
 export const INCREMENT_COUNTER = "INCREMENT_COUNTER";
 export const DECREMENT_COUNTER = "DECREMENT_COUNTER";
 export const SET_CURRENT = "SET_CURRENT";
+export const CLEAR_INGREDIENT = "CLEAR_INGREDIENT";
 
 export const setModalDetailsAction = (payload) => ({ type: SET_DETAILS, payload });
 export const unsetModalDetailsAction = (payload) => ({ type: UNSET_DETAILS, payload });

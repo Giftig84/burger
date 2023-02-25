@@ -1,5 +1,5 @@
 import {
-    ADD_INGREDIENT, DELETE_INGREDIENT, SORT_INGREDIENT, ORDER_REQUEST, CLEAR_ORDER
+    ADD_INGREDIENT, DELETE_INGREDIENT, SORT_INGREDIENT
 } from "../actions/constructorActions";
 
 
@@ -20,17 +20,6 @@ export const constructorReducer= (state = defaultState, action) => {
     switch (action.type) {
         case SORT_INGREDIENT:
             return {...state, arrConstrIngr: [...action.payload]};
-        case ORDER_REQUEST:
-            return {...state, orderResponse: {...action.payload.response}};
-        case CLEAR_ORDER:
-            return {...state, orderResponse: {
-                    "name": "",
-                    "order": {
-                        "number": 0
-                    },
-                    "success": ""
-                }};
-
 
         case ADD_INGREDIENT:
             if(state.arrConstrIngr.length ===0)

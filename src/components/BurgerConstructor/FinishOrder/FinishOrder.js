@@ -7,19 +7,20 @@ import OrderDetails from "./OrderDetails/OrderDetails";
 import {IngredientContext} from "../../../ImportFiles/IngredientContext";
 import {dataIngredient} from "../../../ImportFiles/dataIngredient";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchRequest, setStatusAction} from "../../../services/actions/apiActions";
-import  {CLEAR_ORDER, ORDER_REQUEST} from "../../../services/actions/constructorActions";
+import {fetchRequest, setRequestStatusAction} from "../../../services/actions/apiActions";
+import  {CLEAR_ORDER, ORDER_REQUEST} from "../../../services/actions/modalActions";
+import {allOrderSelector} from "../../../services/selectors/selectors";
 
 function FinishOrder (props){
     const [isModal, setModal] = React.useState(false);
 
-    const order = useSelector(state => state.constr.arrConstrIngr);
+    const order = useSelector(allOrderSelector);
     const dispatch = useDispatch();
 
     const ingredients = React.useMemo(()=>order.map(el=>el._id)
         ,[order]);
     const send = () => {
-        dispatch(setStatusAction({hasError: false, isLoading: true}));
+        dispatch(setRequestStatusAction());
         dispatch(fetchRequest("/orders",{
             body: JSON.stringify({ingredients}),
             headers: new Headers([
@@ -33,13 +34,13 @@ function FinishOrder (props){
         e.stopPropagation();
         send();
         setModal(true);
-    };
+    }
 
     function closeModal (e) {
         e.stopPropagation();
         setModal(false);
         dispatch({type: CLEAR_ORDER});
-    };
+    }
 
         return (
             <div className={s.order}>
@@ -67,4 +68,4 @@ IngredientContext.propTypes = {
     arrIngredient:  PropTypes.arrayOf(PropTypes.shape(dataIngredient).isRequired).isRequired
 };
 
-export default FinishOrder;
+export default React.memo(FinishOrder);

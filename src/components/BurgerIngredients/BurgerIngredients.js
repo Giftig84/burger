@@ -32,4 +32,4 @@ function BurgerIngredients () {
 BurgerIngredients.propTypes = {
     arrIngredient: PropTypes.arrayOf(PropTypes.shape(dataIngredient).isRequired) //.isRequired
 };
-export  default BurgerIngredients ;
+export default React.memo(BurgerIngredients);

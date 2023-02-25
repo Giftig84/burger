@@ -12,12 +12,13 @@ import {addIngredientAction,sortIngredientAction} from "../../services/actions/c
 import {useMemo, useCallback} from "react";
 import uuid from 'react-uuid';
 import DragItem from "./DragItem";
+import {bunSelector, ingredientsSelector, noBunSelector} from "../../services/selectors/selectors";
 
 function BurgerConstructor () {
 
-    const order = useSelector(state => state.constr.arrConstrIngr.filter(el => el.type !== "bun"));
-    const bun = useSelector(state => state.constr.arrConstrIngr.find(el => el.type === "bun"));
-    const allIngredietn = useSelector(state => state.constr.arrConstrIngr);
+    const order = useSelector(noBunSelector);
+    const bun = useSelector(bunSelector);
+    const allIngredietn = useSelector(ingredientsSelector);
     const dispatch = useDispatch();
 
 

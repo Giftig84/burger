@@ -2,9 +2,10 @@ import React from 'react';
 import  s from './IngredientDetails.module.css'
 import PropTypes from 'prop-types';
 import {useSelector} from "react-redux";
+import {ingredientsModalSelector} from "../../../services/selectors/selectors";
 
 function IngredientDetails () {
-const  details = useSelector(state => state.ingr.modalDetails);
+const  details = useSelector(ingredientsModalSelector);
     return(
         <div className={s.main}>
             <div className={s.header +" ml-10 mt-10 mr-10"}>

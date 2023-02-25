@@ -1,6 +1,6 @@
 import {
-     DECREMENT_COUNTER, INGREDIENTS_REQUEST, INCREMENT_COUNTER,
-    SET_DETAILS, UNSET_DETAILS, SET_CURRENT
+    DECREMENT_COUNTER, INGREDIENTS_REQUEST, INCREMENT_COUNTER,
+    SET_DETAILS, UNSET_DETAILS, SET_CURRENT, CLEAR_INGREDIENT
 } from "../actions/ingredientActions";
 
 const defaultState = {
@@ -16,6 +16,9 @@ export const ingredientsReducer= (state = defaultState, action) => {
     switch (action.type) {
         case INGREDIENTS_REQUEST:
             return {...state, arrIngredient: [...action.payload.response.data]};
+
+        case CLEAR_INGREDIENT:
+            return {...state, arrIngredient: []};
 
         case SET_DETAILS:
             return {...state, modalDetails: action.payload, isModal: true};

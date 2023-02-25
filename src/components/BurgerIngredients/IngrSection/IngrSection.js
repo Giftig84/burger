@@ -5,11 +5,12 @@ import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from "react-redux";
 import {useInView} from "react-intersection-observer";
 import {setCurrentTabAction} from "../../../services/actions/ingredientActions";
+import {ingredientsSelector} from "../../../services/selectors/selectors";
 
 const IngrSection = React.forwardRef((props, ref2) => {
     let ingrType;
     const dispatch = useDispatch();
-    const arrIngredient = useSelector(state => state.ingr.arrIngredient);
+    const arrIngredient = useSelector(ingredientsSelector);
     switch (props.name){
             case "Булки": ingrType='bun'; break;
             case "Соусы": ingrType='sauce'; break;

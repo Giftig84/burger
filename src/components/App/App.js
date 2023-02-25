@@ -6,18 +6,19 @@ import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import ClipLoader from "react-spinners/ClipLoader";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchRequest, setStatusAction} from "../../services/actions/apiActions";
+import {fetchRequest, setRequestStatusAction} from "../../services/actions/apiActions";
 import {INGREDIENTS_REQUEST} from "../../services/actions/ingredientActions";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import {isLoadingSelector} from "../../services/selectors/selectors";
 
 function App () {
 
     const dispatch = useDispatch();
-    const isLoading = useSelector(state => state.api.isLoading);
+    const isLoading = useSelector(isLoadingSelector);
 
     React.useEffect(()=>{
-        dispatch(setStatusAction({hasError: false, isLoading: true}));
+        dispatch(setRequestStatusAction());
         dispatch(fetchRequest("/ingredients",{}, INGREDIENTS_REQUEST));
     },[]);
 

@@ -3,13 +3,14 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import  s from './Tabs.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {setCurrentTabAction} from "../../../services/actions/ingredientActions";
+import {currentTabSelector} from "../../../services/selectors/selectors";
 
 function Tabs ({sauce, bun, main}){
 
     const clickScroll = (ref) => {
         return ref.current.scrollIntoView({ behavior: "smooth"});
     }
-    const current = useSelector(state => state.ingr.currentTab)
+    const current = useSelector(currentTabSelector)
     const dispatch = useDispatch();
 
     return(
