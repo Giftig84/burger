@@ -1,22 +1,27 @@
 import React from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import  s from './Tabs.module.css';
+import {useDispatch, useSelector} from "react-redux";
+import {setCurrentTabAction} from "../../../services/actions/ingredientActions";
+import {currentTabSelector} from "../../../services/selectors/selectors";
 
-function Tabs ({souce, bun, main}){
-    const [current, setCurrent] = React.useState('one');
+function Tabs ({sauce, bun, main}){
+
     const clickScroll = (ref) => {
         return ref.current.scrollIntoView({ behavior: "smooth"});
     }
+    const current = useSelector(currentTabSelector)
+    const dispatch = useDispatch();
 
     return(
         <div className={s.tab + " mt-5"}>
-            <Tab value="one" active={current === 'one'} onClick={()=>{setCurrent('one'); clickScroll(bun);}}>
+            <Tab value="bun" active={current === 'bun'} onClick={()=>{dispatch(setCurrentTabAction('bun')); clickScroll(bun);}}>
                 Булки
             </Tab>
-            <Tab value="two" active={current === 'two'} onClick={()=>{setCurrent('two'); clickScroll(souce);}}>
+            <Tab value="sauce" active={current === 'sauce'} onClick={()=>{dispatch(setCurrentTabAction('sauce')); clickScroll(sauce);}}>
                 Соусы
             </Tab>
-            <Tab value="three" active={current === 'three'} onClick={()=>{setCurrent('three'); clickScroll(main);}}>
+            <Tab value="main" active={current === 'main'} onClick={()=>{dispatch(setCurrentTabAction('main')); clickScroll(main);}}>
                 Начинки
             </Tab>
         </div>

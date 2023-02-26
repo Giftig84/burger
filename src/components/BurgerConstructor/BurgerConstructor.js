@@ -1,31 +1,64 @@
 import React from 'react';
-import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components';
 import  s from './BurgerConstructor.module.css';
 import FinishOrder from './FinishOrder/FinishOrder';
 import PropTypes from 'prop-types';
 import {dataIngredient} from "../../ImportFiles/dataIngredient";
 import {IngredientContext} from "../../ImportFiles/IngredientContext";
+import {useDispatch, useSelector} from "react-redux";
+import { useDrop} from "react-dnd";
+import {decrementCounterAction, incrementCounterAction} from "../../services/actions/ingredientActions";
+import {addIngredientAction,sortIngredientAction} from "../../services/actions/constructorActions";
+import {useMemo, useCallback} from "react";
+import uuid from 'react-uuid';
+import DragItem from "./DragItem";
+import {bunSelector, ingredientsSelector, noBunSelector} from "../../services/selectors/selectors";
 
 function BurgerConstructor () {
-    const {order, setOrder} = React.useContext(IngredientContext);
-    const [totalSum, setTotalSum] = React.useState(0);
-    const [bun, setBun] = React.useState(order.arrIngredient.find(el => el.name === "Краторная булка N-200i"));
 
-    //const bun = order.arrIngredient.find(el => el.name === "Краторная булка N-200i"); + (bun.price * 2))
+    const order = useSelector(noBunSelector);
+    const bun = useSelector(bunSelector);
+    const allIngredietn = useSelector(ingredientsSelector);
+    const dispatch = useDispatch();
 
 
-    React.useEffect(()=>{
-        if (order.arrIngredient.length > 0){
-            const bun = order.arrIngredient.find(el => el.name === "Краторная булка N-200i"); //булку пока захардкодил, в т.з. нет описания логики
-            setBun(bun)
-            setTotalSum(order.arrIngredient.filter(el => el.type !== "bun").reduce((sum, el) => sum + el.price, 0) + (bun.price * 2)  );
-        } else setTotalSum(0);
-    }, [order])
+    const totalSum = useMemo( ()=>{
+        let sum = 0;
+        if(allIngredietn.length){
+            sum = ((order.length) ? order.reduce((sum, el) => sum + el.price, 0) : 0) + ((bun)?(bun.price * 2):0);
+        }
+        return sum;
+    }, [allIngredietn]);
+
+    const [ , drop] = useDrop({
+        accept: "ingredient",
+        drop(itemId) {
+            (itemId.props.type === "bun" && bun) && dispatch(decrementCounterAction(bun._id));
+            dispatch(addIngredientAction([{...itemId.props, id: uuid()}]));
+            dispatch(incrementCounterAction(itemId.props._id));
+        },
+    });
+
+    const sortIngredients = useCallback(
+        (dragIndex, currentIndex) => {
+            //получаем элемент бургера перед вырезкой
+            const dragItem = order[dragIndex];
+            // копируем массив для сортировки
+            const sortedIngredients = [...order];
+            // удаляем перетаскиваемый элемент
+            sortedIngredients.splice(dragIndex,1);
+            // добавляем перетскиваемый элемент + булочка(если имеется)
+            (bun) ? (sortedIngredients.splice(currentIndex,0, dragItem, bun)) : (sortedIngredients.splice(currentIndex,0, dragItem));
+            dispatch(sortIngredientAction(sortedIngredients));
+        },
+        [dispatch, allIngredietn]
+    );
+
 
         return(
-            <div className = {s.main + " ml-5"}>
+            <div className = {s.main + " ml-5"} ref={drop}>
                 <div className={s.cont + " ml-4 mt-25"}>
-                       {bun &&      <div className={"ml-8"} >
+                       {bun ? (<div className={"ml-8"} >
                                            <ConstructorElement
                                                type="top"
                                                isLocked={true}
@@ -33,28 +66,21 @@ function BurgerConstructor () {
                                                price={bun.price}
                                                thumbnail={bun.image_mobile}
                                            />
-                                       </div>
+                                       </div>) : (<div className={"pt-10 ml-20 pl-15"}>
+                           <p className="text text_type_main-medium "> Добавьте булку </p></div>)
                        }
-                       <div className={s.scroll }>
-                           {order.arrIngredient.filter(el => el.type !== "bun").map((el) => {
+                       <div className={s.scroll }  >
+                           { order.length >0 ? (
+                               order.map((el, index) => {
                               return(
-                                       <div className={ s.center +" mr-2"} key={el._id}>
+                                       <DragItem key={el.id} el={el} index={index} sortIngredients={sortIngredients}/>
+                                      )
+                               })) : (<div className={"ml-20 mt-25 pt-30"}><p className="text text_type_main-medium "> Добавьте игредиенты в бургер </p></div>)
 
-                                           <div className={s.dragIcon}>
-                                               <DragIcon type="primary" />
-                                           </div>
-
-                                           <ConstructorElement
-                                               text={el.name}
-                                               price={el.price}
-                                               thumbnail={el.image_mobile}
-                                           />
-                                       </div> )
-                           })
                            }
                        </div>
-                        {bun &&
-                                    <div className={"ml-8"} >
+                        {bun ?
+                            ( <div className={"ml-8"} >
                                         <ConstructorElement
                                             type="bottom"
                                             isLocked={true}
@@ -62,7 +88,7 @@ function BurgerConstructor () {
                                             price={bun.price}
                                             thumbnail={bun.image_mobile}
                                         />
-                                    </div>
+                                    </div>) : (<div className={"pt-10 ml-20 pl-15"}><p className="text text_type_main-medium "> Добавьте булку </p></div>)
                         }
                 <div>
 

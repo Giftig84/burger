@@ -4,57 +4,41 @@ import AppHeader from '../AppHeader/AppHeader';
 import s from './app.module.css'
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import {IngredientContext} from "../../ImportFiles/IngredientContext";
-import {checkResponse} from "../../Utils/Utils";
-import {BASE_URL} from "../../ImportFiles/endPointUrl";
 import ClipLoader from "react-spinners/ClipLoader";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchIngredientRequest, INGREDIENTS_REQUEST} from "../../services/actions/ingredientActions";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import {isLoadingSelector} from "../../services/selectors/selectors";
 
 function App () {
-    const [ingredient, setArrIngredient] = React.useState({
-        isLoading: false,
-        hasError: false,
-        arrIngredient: []
-    });
-    //эмуляция заказа
-    const [order, setOrder] = React.useState({
-            arrIngredient: []
-    });
+
+    const dispatch = useDispatch();
+    const isLoading = useSelector(isLoadingSelector);
 
     React.useEffect(()=>{
-        try{
-            const getIngr = async () => {
-                setArrIngredient(({ ...ingredient, hasError: false, isLoading: true }));
-                const parsedResponse  = await fetch(BASE_URL + "/ingredients").then(checkResponse);
-                setArrIngredient({ ...ingredient, arrIngredient: parsedResponse.data, isLoading: false });
-                setOrder({ arrIngredient: parsedResponse.data});
-            };
-            getIngr();
-        } catch (e) {
-            setArrIngredient(({ ...ingredient, hasError: true, isLoading: false }));
-            console.log('Возникла проблема с вашим fetch запросом: ', e.message);
-        }
+        dispatch({type: INGREDIENTS_REQUEST});
+        dispatch(fetchIngredientRequest("/ingredients"));
+    },[]);
 
-
-    },[])
         return (
             <div className={s.app}>
-                {ingredient.isLoading &&
+                {isLoading &&
                     <ClipLoader className={s.loader}
                         color="#4C4CFF"
-                        loading={ingredient.isLoading}
+                        loading={isLoading}
                         size={250}
                         aria-label="Loading Spinner"
                         data-testid="loader"
                     />}
                 <AppHeader/>
-                <IngredientContext.Provider value={{order, setOrder}}>
                     <main className={s.main}>
-                            <BurgerIngredients arrIngredient={ingredient.arrIngredient} />
+                        <DndProvider backend={HTML5Backend}>
+                            <BurgerIngredients />
                             <BurgerConstructor />
+                        </DndProvider>
                     </main>
-                </IngredientContext.Provider>
             </div>
         );
-
 }
 export default App;
