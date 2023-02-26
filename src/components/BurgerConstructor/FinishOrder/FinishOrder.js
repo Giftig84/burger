@@ -7,27 +7,27 @@ import OrderDetails from "./OrderDetails/OrderDetails";
 import {IngredientContext} from "../../../ImportFiles/IngredientContext";
 import {dataIngredient} from "../../../ImportFiles/dataIngredient";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchRequest, setRequestStatusAction} from "../../../services/actions/apiActions";
-import  {CLEAR_ORDER, ORDER_REQUEST} from "../../../services/actions/modalActions";
+import {CLEAR_ORDER, fetchOrderRequest, ORDER_REQUEST} from "../../../services/actions/modalActions";
 import {allOrderSelector} from "../../../services/selectors/selectors";
 
 function FinishOrder (props){
     const [isModal, setModal] = React.useState(false);
 
     const order = useSelector(allOrderSelector);
+
     const dispatch = useDispatch();
 
     const ingredients = React.useMemo(()=>order.map(el=>el._id)
         ,[order]);
     const send = () => {
-        dispatch(setRequestStatusAction());
-        dispatch(fetchRequest("/orders",{
+        dispatch({type: ORDER_REQUEST});
+        dispatch(fetchOrderRequest("/orders",{
             body: JSON.stringify({ingredients}),
             headers: new Headers([
                 ['Content-Type', 'application/json'],
             ]),
             method: 'POST',
-        }, ORDER_REQUEST));
+        }));
     };
 
     function openModal (e) {

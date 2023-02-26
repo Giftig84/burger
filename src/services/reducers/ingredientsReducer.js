@@ -1,7 +1,8 @@
 import {
-    DECREMENT_COUNTER, INGREDIENTS_REQUEST, INCREMENT_COUNTER,
-    SET_DETAILS, UNSET_DETAILS, SET_CURRENT, CLEAR_INGREDIENT
+    DECREMENT_COUNTER, INGREDIENTS_SUCCESS, INCREMENT_COUNTER,
+    SET_DETAILS, UNSET_DETAILS, SET_CURRENT, CLEAR_INGREDIENT, INGREDIENTS_REQUEST, INGREDIENTS_ERROR
 } from "../actions/ingredientActions";
+
 
 const defaultState = {
     arrIngredient: [],
@@ -15,7 +16,13 @@ export const ingredientsReducer= (state = defaultState, action) => {
     let index;
     switch (action.type) {
         case INGREDIENTS_REQUEST:
-            return {...state, arrIngredient: [...action.payload.response.data]};
+            return {...state, isLoading: true, hasError: false };
+
+        case INGREDIENTS_SUCCESS:
+            return {...state, arrIngredient: [...action.payload.response.data], isLoading: false, hasError: false};
+
+        case INGREDIENTS_ERROR:
+            return {...state, isLoading: false, hasError: true };
 
         case CLEAR_INGREDIENT:
             return {...state, arrIngredient: []};
