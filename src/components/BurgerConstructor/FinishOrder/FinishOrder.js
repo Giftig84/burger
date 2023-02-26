@@ -49,9 +49,10 @@ function FinishOrder (props){
                         <CurrencyIcon type="primary"/>
                     </div>
                     <div className={"ml-10"} >
-                        <Button htmlType="button" type="primary" size="large" onClick={openModal}>
+                        { order.length>0 && (<Button htmlType="button" type="primary" size="large" onClick={openModal}>
                             Оформить заказ
-                        </Button>
+                        </Button>)}
+
                         {isModal &&
                             <Modal closeModal={closeModal}> <OrderDetails/>  </Modal>}
                     </div>
