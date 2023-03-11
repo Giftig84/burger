@@ -1,62 +1,52 @@
 import React from 'react';
-import { Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import  s from './Ingredient.module.css'
+import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import s from './Ingredient.module.css'
 import PropTypes from 'prop-types';
-import Modal from "../../Modal/Modal";
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import {useDispatch} from "react-redux";
-import {setModalDetailsAction, unsetModalDetailsAction} from "../../../services/actions/ingredientActions";
 import {useDrag} from "react-dnd";
+import {Link, useLocation} from "react-router-dom";
 
-function Ingredient (props) {
 
-    const [isModal, setModal] = React.useState(false);
-    const dispatch = useDispatch();
+function Ingredient(props) {
+
     const [, dragRef] = useDrag({
         type: "ingredient",
         item: {props}
     });
+    const location = useLocation();
 
-    function openModal () {
-        setModal(true);
-        dispatch(setModalDetailsAction({...props}));
-    };
+    return (
+        <Link to={`/ingredients/${props._id}` }  state={{background: location}} className={s.link}>
 
-    function closeModal (e) {
-        e.stopPropagation();
-        dispatch(unsetModalDetailsAction({...props}));
-        setModal(false);
-    };
-        return(
-            <div className={s.main} onClick={openModal} ref={dragRef}>
-               <div>
-                   {props.count > 0 &&
-                       <div className={s.counter}>
-                           <Counter count={props.count} size="default" />
-                       </div>
-                   }
-               </div>
+            <div className={s.main} ref={dragRef}>
+                <div>
+                    {props.count > 0 &&
+                        <div className={s.counter}>
+                            <Counter count={props.count} size="default"/>
+                        </div>
+                    }
+                </div>
 
-                <img  alt={props.title}    src={props.image}  />
-                <div className = {s.price + " mt-1"}>
+                <img alt={props.title} src={props.image}/>
+                <div className={s.price + " mt-1"}>
                     <p className={"mr-1 text text_type_main-medium"}> {props.price}</p>
                     <CurrencyIcon/>
                 </div>
                 <div className={s.desc + " mt-1"}>
                     <p className={"mt-1"}>{props.name}</p>
                 </div>
-                {isModal &&
-                    <Modal closeModal={closeModal}> <IngredientDetails {...props}/> </Modal>}
+
             </div>
-        )
+        </Link>
+    )
 
 }
+
 Ingredient.propTypes = {
-        count: PropTypes.number,
-        price: PropTypes.number,
-        title: PropTypes.string,
-        name: PropTypes.string,
-        image: PropTypes.string
+    count: PropTypes.number,
+    price: PropTypes.number,
+    title: PropTypes.string,
+    name: PropTypes.string,
+    image: PropTypes.string
 
 }
-export  default Ingredient ;
+export default Ingredient;

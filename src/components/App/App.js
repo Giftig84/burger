@@ -1,44 +1,50 @@
 import React from 'react';
-
 import AppHeader from '../AppHeader/AppHeader';
 import s from './app.module.css'
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import ClipLoader from "react-spinners/ClipLoader";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchIngredientRequest, INGREDIENTS_REQUEST} from "../../services/actions/ingredientActions";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import {useSelector} from "react-redux";
+
 import {isLoadingSelector} from "../../services/selectors/selectors";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {Main} from "../../pages/Main";
+import  {Full} from "../../pages/Full";
+import {Registration} from "../../pages/Registration";
+import {Login} from "../../pages/Login";
+import {ForgotPassword} from "../../pages/ForgotPassword";
+import {ResetPassword} from "../../pages/ResetPassword";
+import {Profile} from "../../pages/Profile";
+import {ProtectedRoute} from "../ProtectedRoute/ProtectedRoute";
 
-function App () {
 
-    const dispatch = useDispatch();
+
+
+function App() {
     const isLoading = useSelector(isLoadingSelector);
 
-    React.useEffect(()=>{
-        dispatch({type: INGREDIENTS_REQUEST});
-        dispatch(fetchIngredientRequest("/ingredients"));
-    },[]);
+    return (
+        <div className={s.app}>
+            {isLoading &&
+                <ClipLoader className={s.loader}
+                            color="#4C4CFF"
+                            loading={isLoading}
+                            size={250}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                />}
 
-        return (
-            <div className={s.app}>
-                {isLoading &&
-                    <ClipLoader className={s.loader}
-                        color="#4C4CFF"
-                        loading={isLoading}
-                        size={250}
-                        aria-label="Loading Spinner"
-                        data-testid="loader"
-                    />}
+            <BrowserRouter>
                 <AppHeader/>
-                    <main className={s.main}>
-                        <DndProvider backend={HTML5Backend}>
-                            <BurgerIngredients />
-                            <BurgerConstructor />
-                        </DndProvider>
-                    </main>
-            </div>
-        );
+                <Routes>
+                    <Route path="/" element={<Main/>}/>
+                    <Route path="/profile" element={<ProtectedRoute element={<Profile/>}/>}/>
+                    <Route path="/reset-password" element={<ResetPassword/>}/>
+                    <Route path="/forgot-password" element={<ForgotPassword/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/register" element={<Registration/>}/>
+                    <Route path="/ingredients/:id" element={<Full/>}/>
+                </Routes>
+            </BrowserRouter>
+        </div>
+    );
 }
 export default App;

@@ -1,0 +1,27 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+    text-align: left;
+}
+.link {
+    cursor: pointer;
+    width: 320px;
+    height: 64px;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.link_active_url {
+    cursor: pointer;
+    width: 320px;
+    height: 64px;
+    color: #F2F2F3;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.link:hover {
+    color: #F2F2F3;
+}
+
