@@ -137,8 +137,12 @@ export const getUser = () => {
             }
         } catch (e) {
             try {
-                await refreshToken();
-                const parsedResponse = await reqUser();
+                let parsedResponse =await refreshToken();
+                if (parsedResponse && parsedResponse.success) {
+                    setCookie('token', parsedResponse.accessToken, {path: '/'});
+                    localStorage.setItem("refreshToken", parsedResponse.refreshToken);
+                }
+                parsedResponse = await reqUser();
                 if (parsedResponse && parsedResponse.success) {
                     dispatch({
                         type: AUTH_USER_SUCCESS,
