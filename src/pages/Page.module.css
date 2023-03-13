@@ -47,3 +47,8 @@
     align-items: center;
     flex-direction: column;
 }
+
+.page404 {
+    text-align: center;
+    text-shadow: 0 0 25px #4C4CFF;
+}

@@ -13,6 +13,7 @@ import {Login} from "../../pages/Login";
 import {ForgotPassword} from "../../pages/ForgotPassword";
 import {ResetPassword} from "../../pages/ResetPassword";
 import {Profile} from "../../pages/Profile";
+import {Page404} from "../../pages/Page404";
 import {ProtectedRoute} from "../ProtectedRoute/ProtectedRoute";
 import {getUser} from "../../services/actions/userAction";
 import {getCookie} from "../../Utils/Utils";
@@ -49,6 +50,7 @@ function App() {
                     <Route path="/login" element={<ProtectedRoute element={<Login/>} onlyUnAuth={true}/>}/>
                     <Route path="/register" element={<ProtectedRoute element={<Registration/>} onlyUnAuth={true}/>}/>
                     <Route path="/ingredients/:id" element={<Full/>}/>
+                    <Route path="*" element={<Page404/>}/>
                 </Routes>
             </BrowserRouter>
         </div>
