@@ -40,10 +40,6 @@ const  details = useSelector(ingredientsModalSelector);
             </div>
 
         </div>
-
-
-
-
     )
 
 }
