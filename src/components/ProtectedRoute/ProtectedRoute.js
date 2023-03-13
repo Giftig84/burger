@@ -1,17 +1,21 @@
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {authSelector} from "../../services/selectors/selectors";
-import { Navigate } from "react-router-dom";
-import { useEffect} from 'react';
-import {getUser} from "../../services/actions/userAction";
+import {Navigate, useLocation} from "react-router-dom";
 
-export const ProtectedRoute = ({ element }) => {
-    const dispatch = useDispatch();
-    const isAuth = useSelector(authSelector);
+export const ProtectedRoute = ({ element, onlyUnAuth = false }) => {
+    let isAuth = useSelector(authSelector);
+    const location = useLocation();
+    const from = location.state?.from || '/';
 
-    useEffect(() => {
-        dispatch(getUser());
-    }, []);
+    if( isAuth && onlyUnAuth)
+        return (
+            <Navigate to={from} />
+        )
 
+    if( !isAuth && !onlyUnAuth)
+        return (
+            <Navigate to="/login" state ={{"from": location}}/>
+        )
 
-    return isAuth ? element : <Navigate to="/login" />;
+    return  element ;
 }

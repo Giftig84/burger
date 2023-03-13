@@ -7,4 +7,5 @@ export const orderResponseSelector = (state)  => state.modalOrder.orderResponse;
 export const isLoadingSelector = (state)  => (state.ingr.isLoading || state.modalOrder.isLoading);
 export const currentTabSelector = (state)  => state.ingr.currentTab;
 export const authSelector = (state)  => state.user.isAuth;
+export const rstPswSelector = (state)  => state.user.isResetPsw;
 export const userSelector = (state)  => state.user.user;

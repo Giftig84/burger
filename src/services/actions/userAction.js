@@ -14,6 +14,12 @@ export const AUTH_USER_SUCCESS = "AUTH_USER_SUCCESS";
 export const USER_LOGOUT_SUCCESS = "USER_LOGOUT_SUCCESS";
 export const USER_LOGOUT_REQUEST = "USER_LOGOUT_REQUEST";
 export const USER_LOGOUT_ERROR = "USER_LOGOUT_ERROR";
+export const USER_UPDATE_ERROR = "USER_UPDATE_ERROR";
+export const USER_UPDATE_REQUEST = "USER_UPDATE_REQUEST";
+export const USER_UPDATE_SUCCESS = "USER_UPDATE_SUCCESS";
+export const USER_FGT_PSW_SUCCESS = "USER_FGT_PSW_SUCCESS";
+export const USER_RST_PSW_SUCCESS = "USER_RST_PSW_SUCCESS";
+
 
 //регистрация
 export const userRegistration = (url = '/auth/register', body) => {
@@ -61,8 +67,9 @@ export const loginUser = (url = '/auth/login', body) => {
             }).then(checkResponse);
 
             if (parsedResponse && parsedResponse.success) {
+
+                setCookie('token', parsedResponse.accessToken,  { path: '/' });
                 localStorage.setItem("refreshToken", parsedResponse.refreshToken);
-                setCookie('token', parsedResponse.accessToken);
                 dispatch({
                     type: LOGIN_USER_SUCCESS,
                     user: parsedResponse.user,
@@ -81,11 +88,11 @@ export const loginUser = (url = '/auth/login', body) => {
 //обновление токена
 export  async function refreshToken () {
     try {
-        const token =  localStorage.getItem("refreshToken");
+        const refreshToken =  localStorage.getItem("refreshToken");
         return  await fetch(BASE_URL + "/auth/token", {
             method: 'POST',
             body: JSON.stringify({
-                token: token,
+                token: refreshToken
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -107,20 +114,19 @@ export  async function refreshToken () {
             credentials: 'same-origin',
             headers: {
                 "Content-Type": "application/json",
-                Authorization: token
+                "Authorization": token
             },
             redirect: 'follow',
             referrerPolicy: 'no-referrer'
         }
     ).then(checkResponse);
 
-
 }
 
 export const getUser = () => {
     return async function (dispatch) {
         try {
-            debugger;
+
             dispatch({type: AUTH_USER_REQUEST})
             const parsedResponse = await reqUser();
             if (parsedResponse && parsedResponse.success) {
@@ -165,7 +171,7 @@ export function userLogout() {
         }).then(checkResponse)
             .then((parsedResponse) => {
                 if (parsedResponse && parsedResponse.success) {
-                    deleteCookie("token")
+                    deleteCookie("token", "/");
                     localStorage.removeItem("refreshToken");
                     dispatch({
                         type: USER_LOGOUT_SUCCESS
@@ -178,5 +184,40 @@ export function userLogout() {
                     err
                 });
             })
+    }
+}
+
+//обновление данных о пользователе
+
+export const updateUser = (userData) => {
+    return async function (dispatch) {
+        try {
+
+            dispatch({type: USER_UPDATE_REQUEST})
+            const token = getCookie('token');
+            const parsedResponse =  await fetch(BASE_URL + "/auth/user", {
+                    method: 'PATCH',
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    credentials: 'same-origin',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": token
+                    },
+                    redirect: 'follow',
+                    referrerPolicy: 'no-referrer',
+                    body: JSON.stringify(userData)
+                }
+            ).then(checkResponse);;
+            if (parsedResponse && parsedResponse.success) {
+                dispatch({
+                    type: USER_UPDATE_SUCCESS,
+                    user: parsedResponse.user,
+                })
+            }
+        } catch (e) {
+            dispatch({type: USER_UPDATE_ERROR});
+            console.log('Возникла проблема с отправкой заказа: ' + USER_UPDATE_ERROR, e.message);
+        }
     }
 }

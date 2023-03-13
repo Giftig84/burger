@@ -1,13 +1,14 @@
 import React, {useEffect} from 'react';
 import  s from './Page.module.css'
-import { Input} from '@ya.praktikum/react-developer-burger-ui-components';
+import {Button, Input} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useDispatch, useSelector} from "react-redux";
 import {ProfileNavigation} from "../components/ProfileNavigation/ProfileNavigation";
 import {userSelector} from "../services/selectors/selectors";
+import { updateUser} from "../services/actions/userAction";
 
 export  function  Profile() {
     const user = useSelector(userSelector);
-debugger;
+
     const [userForm, setUserForm] = React.useState({
         email: '',
         password: '',
@@ -15,7 +16,6 @@ debugger;
     });
 
     const dispatch = useDispatch();
-
 
     useEffect(()=>{
         if(user) setUserForm({
@@ -25,6 +25,8 @@ debugger;
         })
     }, [user]);
 
+
+
     const onChange = (e) => {
         setUserForm({
             ...userForm,
@@ -32,7 +34,21 @@ debugger;
     });
     };
 
+    const handleSubmit = (e) =>{
+        e.preventDefault();
+        dispatch(updateUser());
+    }
 
+    const cancelSubmit = (e) =>{
+        debugger;
+        e.preventDefault();
+        if(user) setUserForm({
+            email: user.email,
+            password: '',
+            name: user.name
+        })
+
+    }
     return(
         <div className={s.profile}>
             <div className={s.navigation}>
@@ -76,6 +92,8 @@ debugger;
                     size={'default'}
                     extraClass="mb-6"
                 />
+                <Button htmlType="button" size="medium" extraClass="mb-6 mr-6" onClick={(e) => handleSubmit(e)}>Сохранить</Button>
+                <Button htmlType="button" size="medium" extraClass="mb-6" onClick={(e) => cancelSubmit(e)}>Отменить</Button>
             </div>
 
         </div>

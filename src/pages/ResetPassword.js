@@ -1,28 +1,30 @@
 import React from 'react';
 import s from './Page.module.css'
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector} from "react-redux";
-import {Link, Navigate, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {Link, Navigate,  useNavigate} from "react-router-dom";
 import {BASE_URL} from "../ImportFiles/endPointUrl";
 import {checkResponse} from "../Utils/Utils";
-import {authSelector} from "../services/selectors/selectors";
+import { rstPswSelector} from "../services/selectors/selectors";
+import {USER_RST_PSW_SUCCESS} from "../services/actions/userAction";
 
 export function ResetPassword() {
     const [showPass, setShowPass] = React.useState(false);
     const [emailCode, setEmailCode] = React.useState('');
     const [password, setPassword] = React.useState('');
     const navigate = useNavigate();
-    const isAuth = useSelector(authSelector);
+    const isRstPWD = useSelector(rstPswSelector);
+    const dispatch = useDispatch();
 
-    if (isAuth) {
+    if (!isRstPWD) {
         return (
-            <Navigate to='/' />
+            <Navigate to='/forgot-password' />
         );
     }
 
     const resetPassword = async function () {
         if (password && emailCode) {
-            debugger;
+
             try {
                 const parsedResponse = await fetch(BASE_URL + "/password-reset/reset", {
                     body: JSON.stringify({
@@ -35,6 +37,7 @@ export function ResetPassword() {
                     method: 'POST',
                 }).then(checkResponse);
                 if (parsedResponse.success === true) {
+                    dispatch({type: USER_RST_PSW_SUCCESS})
                     navigate('/login');
                 }
 

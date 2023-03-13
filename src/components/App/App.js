@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import AppHeader from '../AppHeader/AppHeader';
 import s from './app.module.css'
 import ClipLoader from "react-spinners/ClipLoader";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
-import {isLoadingSelector} from "../../services/selectors/selectors";
+import {authSelector, isLoadingSelector} from "../../services/selectors/selectors";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {Main} from "../../pages/Main";
 import  {Full} from "../../pages/Full";
@@ -14,12 +14,19 @@ import {ForgotPassword} from "../../pages/ForgotPassword";
 import {ResetPassword} from "../../pages/ResetPassword";
 import {Profile} from "../../pages/Profile";
 import {ProtectedRoute} from "../ProtectedRoute/ProtectedRoute";
-
-
+import {getUser} from "../../services/actions/userAction";
+import {getCookie} from "../../Utils/Utils";
 
 
 function App() {
     const isLoading = useSelector(isLoadingSelector);
+    const isAuth = useSelector(authSelector);
+    const dispatch = useDispatch();
+    const accessToken = getCookie('token');
+
+    useEffect(() => {
+        if(!isAuth && accessToken) dispatch(getUser());
+    },[])
 
     return (
         <div className={s.app}>
@@ -38,9 +45,9 @@ function App() {
                     <Route path="/" element={<Main/>}/>
                     <Route path="/profile" element={<ProtectedRoute element={<Profile/>}/>}/>
                     <Route path="/reset-password" element={<ResetPassword/>}/>
-                    <Route path="/forgot-password" element={<ForgotPassword/>}/>
-                    <Route path="/login" element={<Login/>}/>
-                    <Route path="/register" element={<Registration/>}/>
+                    <Route path="/forgot-password" element={<ProtectedRoute element={<ForgotPassword/>} onlyUnAuth={true}/>}/>
+                    <Route path="/login" element={<ProtectedRoute element={<Login/>} onlyUnAuth={true}/>}/>
+                    <Route path="/register" element={<ProtectedRoute element={<Registration/>} onlyUnAuth={true}/>}/>
                     <Route path="/ingredients/:id" element={<Full/>}/>
                 </Routes>
             </BrowserRouter>

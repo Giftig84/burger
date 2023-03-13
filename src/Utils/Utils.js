@@ -2,7 +2,7 @@ export function checkResponse(res) {
     if (res.ok) {
         return res.json();
     }
-    return Promise.reject(`Ошибка ${res.status}`);
+    return Promise.reject(`Ошибка ${res.status} ${res.messages}`);
 }
 
 export function setCookie(name, value, props) {
@@ -35,6 +35,7 @@ export function getCookie(name) {
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function deleteCookie(name) {
-    setCookie(name, false, { expires: -1 });
+export function deleteCookie(name, path) {
+
+    setCookie(name, false, { expires: -1, path: path });
 }
