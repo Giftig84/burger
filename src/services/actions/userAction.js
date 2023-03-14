@@ -220,8 +220,38 @@ export const updateUser = (userData) => {
                 })
             }
         } catch (e) {
-            dispatch({type: USER_UPDATE_ERROR});
-            console.log('Возникла проблема с отправкой заказа: ' + USER_UPDATE_ERROR, e.message);
+
+            try {
+                let parsedResponse =await refreshToken();
+                if (parsedResponse && parsedResponse.success) {
+                    setCookie('token', parsedResponse.accessToken, {path: '/'});
+                    localStorage.setItem("refreshToken", parsedResponse.refreshToken);
+                }
+                parsedResponse =  await fetch(BASE_URL + "/auth/user", {
+                        method: 'PATCH',
+                        mode: 'cors',
+                        cache: 'no-cache',
+                        credentials: 'same-origin',
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": getCookie('token')
+                        },
+                        redirect: 'follow',
+                        referrerPolicy: 'no-referrer',
+                        body: JSON.stringify(userData)
+                    }
+                ).then(checkResponse);;
+                if (parsedResponse && parsedResponse.success) {
+                    dispatch({
+                        type: USER_UPDATE_SUCCESS,
+                        user: parsedResponse.user,
+                    })
+                }
+            } catch (e) {
+                dispatch({type: USER_UPDATE_ERROR});
+                console.log('Возникла проблема с обновлением юзера: ' + USER_UPDATE_ERROR, e.message);
+            }
+
         }
     }
 }

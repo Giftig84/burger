@@ -36,7 +36,7 @@ export  function  Profile() {
 
     const handleSubmit = (e) =>{
         e.preventDefault();
-        dispatch(updateUser());
+        dispatch(updateUser(userForm));
     }
 
     const cancelSubmit = (e) =>{
