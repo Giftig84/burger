@@ -1,13 +1,11 @@
 import {
     DECREMENT_COUNTER, INGREDIENTS_SUCCESS, INCREMENT_COUNTER,
-    SET_DETAILS, UNSET_DETAILS, SET_CURRENT, CLEAR_INGREDIENT, INGREDIENTS_REQUEST, INGREDIENTS_ERROR
+     SET_CURRENT, CLEAR_INGREDIENT, INGREDIENTS_REQUEST, INGREDIENTS_ERROR
 } from "../actions/ingredientActions";
 
 
 const defaultState = {
     arrIngredient: [],
-    modalDetails: {},
-    isModal: false,
     currentTab: "bun"
 }
 
@@ -26,12 +24,6 @@ export const ingredientsReducer= (state = defaultState, action) => {
 
         case CLEAR_INGREDIENT:
             return {...state, arrIngredient: []};
-
-        case SET_DETAILS:
-            return {...state, modalDetails: action.payload, isModal: true};
-
-        case UNSET_DETAILS:
-            return {...state, modalDetails: {}, isModal: false};
 
         case INCREMENT_COUNTER:
             //копируем массив

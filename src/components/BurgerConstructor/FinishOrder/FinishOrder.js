@@ -1,6 +1,6 @@
 import React from 'react';
-import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import  s from './FinishOrder.module.css'
+import {CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
+import s from './FinishOrder.module.css'
 import PropTypes from "prop-types";
 import Modal from "../../Modal/Modal";
 import OrderDetails from "./OrderDetails/OrderDetails";
@@ -8,20 +8,23 @@ import {IngredientContext} from "../../../ImportFiles/IngredientContext";
 import {dataIngredient} from "../../../ImportFiles/dataIngredient";
 import {useDispatch, useSelector} from "react-redux";
 import {CLEAR_ORDER, fetchOrderRequest, ORDER_REQUEST} from "../../../services/actions/modalActions";
-import {allOrderSelector} from "../../../services/selectors/selectors";
+import {allOrderSelector, authSelector} from "../../../services/selectors/selectors";
+import {useNavigate} from "react-router-dom";
 
-function FinishOrder (props){
+function FinishOrder(props) {
     const [isModal, setModal] = React.useState(false);
 
     const order = useSelector(allOrderSelector);
+    const isAuth = useSelector(authSelector);
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
-    const ingredients = React.useMemo(()=>order.map(el=>el._id)
-        ,[order]);
+    const ingredients = React.useMemo(() => order.map(el => el._id)
+        , [order]);
     const send = () => {
         dispatch({type: ORDER_REQUEST});
-        dispatch(fetchOrderRequest("/orders",{
+        dispatch(fetchOrderRequest("/orders", {
             body: JSON.stringify({ingredients}),
             headers: new Headers([
                 ['Content-Type', 'application/json'],
@@ -30,34 +33,43 @@ function FinishOrder (props){
         }));
     };
 
-    function openModal (e) {
+    function openModal(e) {
         e.stopPropagation();
-        send();
-        setModal(true);
+        debugger;
+        if (isAuth) {
+            send();
+            setModal(true);
+        } else {
+           navigate('/login');
+        }
+
+
+
     }
 
-    function closeModal (e) {
+    function closeModal(e) {
         e.stopPropagation();
         setModal(false);
         dispatch({type: CLEAR_ORDER});
     }
-        return (
-            <div className={s.order}>
 
-                    <p className={"text text_type_main-large mr-3"}>{props.totalSum}</p>
-                    <div className={s.amount_icon}>
-                        <CurrencyIcon type="primary"/>
-                    </div>
-                    <div className={"ml-10"} >
-                        { order.length>0 && (<Button htmlType="button" type="primary" size="large" onClick={openModal}>
-                            Оформить заказ
-                        </Button>)}
+    return (
+        <div className={s.order}>
 
-                        {isModal &&
-                            <Modal closeModal={closeModal}> <OrderDetails/>  </Modal>}
-                    </div>
+            <p className={"text text_type_main-large mr-3"}>{props.totalSum}</p>
+            <div className={s.amount_icon}>
+                <CurrencyIcon type="primary"/>
             </div>
-        )
+            <div className={"ml-10"}>
+                {order.length > 0 && (<Button htmlType="button" type="primary" size="large" onClick={openModal}>
+                    Оформить заказ
+                </Button>)}
+
+                {isModal  &&
+                    <Modal closeModal={closeModal}> <OrderDetails/> </Modal>}
+            </div>
+        </div>
+    )
 }
 
 FinishOrder.propTypes = {
@@ -65,7 +77,7 @@ FinishOrder.propTypes = {
 };
 
 IngredientContext.propTypes = {
-    arrIngredient:  PropTypes.arrayOf(PropTypes.shape(dataIngredient).isRequired).isRequired
+    arrIngredient: PropTypes.arrayOf(PropTypes.shape(dataIngredient).isRequired).isRequired
 };
 
 export default React.memo(FinishOrder);
