@@ -17,12 +17,13 @@ import {ProtectedRoute} from "../ProtectedRoute/ProtectedRoute";
 import {getUser} from "../../services/actions/userAction";
 import {getCookie} from "../../Utils/Utils";
 import {TDispatch} from "../../Types/types";
+import {TOKEN_KEY} from "../../ImportFiles/endPointUrl";
 
 const App:FC = () =>{
     const isLoading: boolean = useSelector(isLoadingSelector);
     const isAuth: boolean = useSelector(authSelector);
     const dispatch: TDispatch = useDispatch();
-    const accessToken: string | undefined = getCookie('token');
+    const accessToken: string | undefined = getCookie(TOKEN_KEY);
 
     useEffect(() => {
         if(!isAuth && accessToken) dispatch(getUser());

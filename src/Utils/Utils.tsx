@@ -1,11 +1,16 @@
-export function checkResponse(res) {
+type TCookie = {
+    expires?: any;
+    [key: string]: number | string | boolean;
+}
+
+export function checkResponse(res: any) {
     if (res.ok) {
         return res.json();
     }
     return Promise.reject(`Ошибка ${res.status} ${res.messages}`);
 }
 
-export function setCookie(name, value, props) {
+export function setCookie(name: string, value: string | boolean, props?: TCookie): void {
     props = props || {};
     let exp = props.expires;
     if (typeof exp == 'number' && exp) {
@@ -28,14 +33,14 @@ export function setCookie(name, value, props) {
     document.cookie = updatedCookie;
 }
 
-export function getCookie(name) {
+export function getCookie(name: string): string | undefined {
     const matches = document.cookie.match(
         new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
     );
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function deleteCookie(name, path) {
+export function deleteCookie(name: string, path: string):void {
 
     setCookie(name, false, { expires: -1, path: path });
 }

@@ -20,7 +20,7 @@ const BurgerConstructor: FC = () => {
     const dispatch = useDispatch();
 
 
-    const totalSum: number = useMemo( (): number=>{
+    const totalSum = useMemo<number>( ()=>{
         let sum: number = 0;
         if(allIngredietn.length){
             sum = ((order.length) ? order.reduce((sum, el) => sum + el.price, 0) : 0) + ((bun)?(bun.price * 2):0);
