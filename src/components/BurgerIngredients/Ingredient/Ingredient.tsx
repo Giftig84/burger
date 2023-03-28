@@ -1,12 +1,12 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import s from './Ingredient.module.css'
-import PropTypes from 'prop-types';
 import {useDrag} from "react-dnd";
 import {Link, useLocation} from "react-router-dom";
+import {TIngredient} from "../../../Types/types";
 
-
-function Ingredient(props) {
+type TProps = {  count: number; title?: string;} & TIngredient;
+const Ingredient: FC<TProps>=(props) => {
 
     const [, dragRef] = useDrag({
         type: "ingredient",
@@ -25,28 +25,18 @@ function Ingredient(props) {
                         </div>
                     }
                 </div>
-
                 <img alt={props.title} src={props.image}/>
                 <div className={s.price + " mt-1"}>
                     <p className={"mr-1 text text_type_main-medium"}> {props.price}</p>
-                    <CurrencyIcon/>
+                    <CurrencyIcon type="primary"/>
                 </div>
                 <div className={s.desc + " mt-1"}>
                     <p className={"mt-1"}>{props.name}</p>
                 </div>
-
             </div>
         </Link>
     )
 
 }
 
-Ingredient.propTypes = {
-    count: PropTypes.number,
-    price: PropTypes.number,
-    title: PropTypes.string,
-    name: PropTypes.string,
-    image: PropTypes.string
-
-}
 export default Ingredient;

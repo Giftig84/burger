@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import s from './Page.module.css'
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useDispatch, useSelector} from "react-redux";
@@ -7,14 +7,15 @@ import {BASE_URL} from "../ImportFiles/endPointUrl";
 import {checkResponse} from "../Utils/Utils";
 import { rstPswSelector} from "../services/selectors/selectors";
 import {USER_RST_PSW_SUCCESS} from "../services/actions/userAction";
+import {TDispatch} from "../Types/types";
 
-export function ResetPassword() {
-    const [showPass, setShowPass] = React.useState(false);
-    const [emailCode, setEmailCode] = React.useState('');
-    const [password, setPassword] = React.useState('');
+export const ResetPassword:FC = () =>  {
+    const [showPass, setShowPass] = React.useState<boolean>(false);
+    const [emailCode, setEmailCode] = React.useState<string>('');
+    const [password, setPassword] = React.useState<string>('');
     const navigate = useNavigate();
-    const isRstPWD = useSelector(rstPswSelector);
-    const dispatch = useDispatch();
+    const isRstPWD: boolean | undefined = useSelector(rstPswSelector);
+    const dispatch: TDispatch = useDispatch();
 
     if (!isRstPWD) {
         return (
@@ -41,8 +42,10 @@ export function ResetPassword() {
                     navigate('/login');
                 }
 
-            } catch (e) {
-                console.log('Возникла проблема с сбросом пароля: ', e.message);
+            } catch (e: unknown) {
+                if (e instanceof Error) {
+                    console.log('Возникла проблема с сбросом пароля: ', e.message);
+                }
             }
         }
 
@@ -56,7 +59,7 @@ export function ResetPassword() {
                 <p className="text text_type_main-medium">Восстановление пароля</p>
             </div>
             <Input
-                type={!showPass && 'password'}
+                type={(!showPass) ? 'password':'text'}
                 placeholder={'Введите новый пароль'}
                 onChange={e => setPassword(e.target.value)}
                 icon={'ShowIcon'}

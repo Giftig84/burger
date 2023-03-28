@@ -1,8 +1,13 @@
+import React, {FC, ReactFragment} from 'react';
 import {useSelector} from "react-redux";
 import {authSelector} from "../../services/selectors/selectors";
-import {Navigate, useLocation} from "react-router-dom";
+import {Navigate, useLocation, RouteProps} from "react-router-dom";
 
-export const ProtectedRoute = ({ element, onlyUnAuth = false }) => {
+type TProps = {   onlyUnAuth?: boolean;
+    element?: ReactFragment | React.ComponentType | any;
+} & RouteProps;
+
+export const ProtectedRoute: FC<TProps> = ({ element, onlyUnAuth = false }) => {
     let isAuth = useSelector(authSelector);
     const location = useLocation();
     const from = location.state?.from || '/';
@@ -19,3 +24,4 @@ export const ProtectedRoute = ({ element, onlyUnAuth = false }) => {
 
     return  element ;
 }
+

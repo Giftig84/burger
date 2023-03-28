@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import s from './Page.module.css'
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useNavigate, Link} from "react-router-dom";
@@ -7,16 +7,15 @@ import {checkResponse} from "../Utils/Utils";
 import {useDispatch} from "react-redux";
 
 import {USER_FGT_PSW_SUCCESS} from "../services/actions/userAction";
+import {TDispatch} from "../Types/types";
 
 
-export function ForgotPassword() {
-    const [email, setEmail] = React.useState('');
+export const ForgotPassword:FC =() =>{
+    const [email, setEmail] = React.useState<string>('');
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch: TDispatch = useDispatch();
 
-
-
-    const sendEmail = async function () {
+    const sendEmail = async function (): Promise<void> {
         if (email) {
             try {
                 const parsedResponse = await fetch(BASE_URL + "/password-reset", {
@@ -33,8 +32,11 @@ export function ForgotPassword() {
                     navigate('/reset-password');
                 }
 
-            } catch (e) {
-                console.log('Возникла проблема с отправкой email: ', e.message);
+            } catch (e: unknown) {
+                if (e instanceof Error) {
+                    console.log('Возникла проблема с отправкой email: ', e.message);
+                }
+
             }
         }
 

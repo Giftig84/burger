@@ -1,21 +1,22 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import  s from './Page.module.css'
 import {Button, Input} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useDispatch, useSelector} from "react-redux";
 import {ProfileNavigation} from "../components/ProfileNavigation/ProfileNavigation";
 import {userSelector} from "../services/selectors/selectors";
 import { updateUser} from "../services/actions/userAction";
+import {TDispatch, TUser} from "../Types/types";
 
-export  function  Profile() {
-    const user = useSelector(userSelector);
+export  const Profile:FC = () => {
+    const user: TUser = useSelector(userSelector);
 
-    const [userForm, setUserForm] = React.useState({
+    const [userForm, setUserForm] = React.useState<TUser>({
         email: '',
         password: '',
         name: ''
     });
 
-    const dispatch = useDispatch();
+    const dispatch: TDispatch = useDispatch();
 
     useEffect(()=>{
         if(user) setUserForm({
@@ -27,20 +28,20 @@ export  function  Profile() {
 
 
 
-    const onChange = (e) => {
+    const onChange = (e: React.SyntheticEvent) => {
         setUserForm({
             ...userForm,
-            [e.target.name]: e.target.value
+            [(e.target as HTMLInputElement).name]: (e.target as HTMLInputElement).value
     });
     };
 
-    const handleSubmit = (e) =>{
+    const handleSubmit = (e: React.SyntheticEvent) =>{
         e.preventDefault();
         dispatch(updateUser(userForm));
     }
 
-    const cancelSubmit = (e) =>{
-        debugger;
+    const cancelSubmit = (e: React.SyntheticEvent) =>{
+
         e.preventDefault();
         if(user) setUserForm({
             email: user.email,

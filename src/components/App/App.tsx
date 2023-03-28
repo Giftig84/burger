@@ -1,9 +1,8 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, FC} from 'react';
 import AppHeader from '../AppHeader/AppHeader';
 import s from './app.module.css'
 import ClipLoader from "react-spinners/ClipLoader";
 import {useDispatch, useSelector} from "react-redux";
-
 import {authSelector, isLoadingSelector} from "../../services/selectors/selectors";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {Main} from "../../pages/Main";
@@ -17,13 +16,13 @@ import {Page404} from "../../pages/Page404";
 import {ProtectedRoute} from "../ProtectedRoute/ProtectedRoute";
 import {getUser} from "../../services/actions/userAction";
 import {getCookie} from "../../Utils/Utils";
+import {TDispatch} from "../../Types/types";
 
-
-function App() {
-    const isLoading = useSelector(isLoadingSelector);
-    const isAuth = useSelector(authSelector);
-    const dispatch = useDispatch();
-    const accessToken = getCookie('token');
+const App:FC = () =>{
+    const isLoading: boolean = useSelector(isLoadingSelector);
+    const isAuth: boolean = useSelector(authSelector);
+    const dispatch: TDispatch = useDispatch();
+    const accessToken: string | undefined = getCookie('token');
 
     useEffect(() => {
         if(!isAuth && accessToken) dispatch(getUser());

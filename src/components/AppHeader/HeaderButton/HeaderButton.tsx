@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {ReactElement, FC} from 'react';
 import headerStyle from './HeaderButton.module.css';
-import PropTypes from 'prop-types';
-import {NavLink, useLocation} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
-
-function HeaderButton(props) {
-    const location = useLocation();
+type THeaderButton = {
+    icon: ReactElement,
+    type: string,
+    text: string,
+    link: string
+}
+const HeaderButton: FC<THeaderButton> = (props) =>{
     return (
         <NavLink to={props.link} className={headerStyle.button}>
             {props.icon}
@@ -16,11 +19,5 @@ function HeaderButton(props) {
 
     );
 }
-
 export default HeaderButton;
 
-HeaderButton.propTypes = {
-    icon: PropTypes.object,
-    type: PropTypes.string,
-    text: PropTypes.string
-};

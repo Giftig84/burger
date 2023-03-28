@@ -1,13 +1,14 @@
-import React from 'react';
+import React, {FC} from 'react';
 import  s from './OrderDetails.module.css'
 import image from '../../../../Image/IconDone.png'
 import {useSelector} from "react-redux";
 import {orderResponseSelector} from "../../../../services/selectors/selectors";
+import {TOrderResp} from "../../../../Types/types";
 
 
-function OrderDetails (){
+const OrderDetails: FC = ()=>{
 
-const orderResponse = useSelector(orderResponseSelector)
+const orderResponse: TOrderResp = useSelector(orderResponseSelector)
     return (
         <div className={s.main}>
             <div className={s.header +"  mt-30 "}>

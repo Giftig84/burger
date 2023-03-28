@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {FC} from 'react';
 import s from './ProfileNavigation.module.css';
 import { NavLink, useLocation, useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {userLogout} from "../../services/actions/userAction";
+import {TDispatch} from "../../Types/types";
 
-export function ProfileNavigation() {
+export const ProfileNavigation:FC = () =>{
     let location = useLocation();
-    const dispatch = useDispatch();
+    const dispatch: TDispatch = useDispatch();
     const navigate = useNavigate();
     const logOut = ()=>{
         dispatch(userLogout());
