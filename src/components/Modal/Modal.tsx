@@ -1,16 +1,21 @@
-import React from 'react';
+import React, {FC} from 'react';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ReactDOM from 'react-dom';
 import  s from "./Modal.module.css"
 import ModalOverlay from "./ModalOverlay/ModalOverlay";
 
-const modalRoot = document.getElementById("modal");
+const modalRoot:  Element | DocumentFragment = document.getElementById("modal") as HTMLDivElement;
 
-function Modal (props){
+type TProps = {
+    closeModal: ()=>void;
+    children?: React.ReactNode;
+}
+
+const Modal:FC<TProps> = (props)=>{
     const { children, closeModal } = props;
     React.useEffect(()=>{
-        const closeByEsc = ((e) => {
-           if(e.key === 'Escape')  closeModal(e);
+        const closeByEsc = ((key: KeyboardEvent) => {
+           if(key.key === 'Escape')  closeModal();
             });
         document.addEventListener('keydown', closeByEsc);
         return () => document.removeEventListener('keydown', closeByEsc)

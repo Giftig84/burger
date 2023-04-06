@@ -1,10 +1,7 @@
-import React from 'react';
+import React, {FC} from 'react';
 import { ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components';
 import  s from './BurgerConstructor.module.css';
 import FinishOrder from './FinishOrder/FinishOrder';
-import PropTypes from 'prop-types';
-import {dataIngredient} from "../../ImportFiles/dataIngredient";
-import {IngredientContext} from "../../ImportFiles/IngredientContext";
 import {useDispatch, useSelector} from "react-redux";
 import { useDrop} from "react-dnd";
 import {decrementCounterAction, incrementCounterAction} from "../../services/actions/ingredientActions";
@@ -13,17 +10,18 @@ import {useMemo, useCallback} from "react";
 import uuid from 'react-uuid';
 import DragItem from "./DragItem";
 import {bunSelector, ingredientsSelector, noBunSelector} from "../../services/selectors/selectors";
+import {TIngredient, TOrderIngredient} from "../../Types/types";
 
-function BurgerConstructor () {
+const BurgerConstructor: FC = () => {
 
-    const order = useSelector(noBunSelector);
-    const bun = useSelector(bunSelector);
-    const allIngredietn = useSelector(ingredientsSelector);
+    const order: Array<TOrderIngredient> = useSelector(noBunSelector);
+    const bun: TOrderIngredient = useSelector(bunSelector);
+    const allIngredietn: Array<TOrderIngredient> = useSelector(ingredientsSelector);
     const dispatch = useDispatch();
 
 
-    const totalSum = useMemo( ()=>{
-        let sum = 0;
+    const totalSum = useMemo<number>( ()=>{
+        let sum: number = 0;
         if(allIngredietn.length){
             sum = ((order.length) ? order.reduce((sum, el) => sum + el.price, 0) : 0) + ((bun)?(bun.price * 2):0);
         }
@@ -32,7 +30,7 @@ function BurgerConstructor () {
 
     const [ , drop] = useDrop({
         accept: "ingredient",
-        drop(itemId) {
+        drop(itemId:{props:TIngredient}) {
             (itemId.props.type === "bun" && bun) && dispatch(decrementCounterAction(bun._id));
             dispatch(addIngredientAction([{...itemId.props, id: uuid()}]));
             dispatch(incrementCounterAction(itemId.props._id));
@@ -40,7 +38,7 @@ function BurgerConstructor () {
     });
 
     const sortIngredients = useCallback(
-        (dragIndex, currentIndex) => {
+        (dragIndex:number, currentIndex:number) => {
             //получаем элемент бургера перед вырезкой
             const dragItem = order[dragIndex];
             // копируем массив для сортировки
@@ -103,8 +101,6 @@ function BurgerConstructor () {
         )
 }
 
-IngredientContext.propTypes = {
-    arrIngredient:  PropTypes.arrayOf(PropTypes.shape(dataIngredient).isRequired).isRequired
-};
+
 
 export default BurgerConstructor;

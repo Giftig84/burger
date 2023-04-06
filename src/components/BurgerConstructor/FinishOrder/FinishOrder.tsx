@@ -1,39 +1,36 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import s from './FinishOrder.module.css'
-import PropTypes from "prop-types";
 import Modal from "../../Modal/Modal";
 import OrderDetails from "./OrderDetails/OrderDetails";
-import {IngredientContext} from "../../../ImportFiles/IngredientContext";
-import {dataIngredient} from "../../../ImportFiles/dataIngredient";
 import {useDispatch, useSelector} from "react-redux";
 import {CLEAR_ORDER, fetchOrderRequest, ORDER_REQUEST} from "../../../services/actions/modalActions";
 import {allOrderSelector, authSelector} from "../../../services/selectors/selectors";
 import {useNavigate} from "react-router-dom";
+import {TDispatch, TOrderIngredient} from "../../../Types/types";
 
-function FinishOrder(props) {
+type TProps = {
+    totalSum: number;
+}
+
+const FinishOrder: FC <TProps> =(props) =>{
     const [isModal, setModal] = React.useState(false);
 
-    const order = useSelector(allOrderSelector);
-    const isAuth = useSelector(authSelector);
+    const order: Array<TOrderIngredient> = useSelector(allOrderSelector);
+    const isAuth: boolean | undefined = useSelector(authSelector);
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
+    const dispatch: TDispatch  = useDispatch();
+
 
     const ingredients = React.useMemo(() => order.map(el => el._id)
         , [order]);
     const send = () => {
         dispatch({type: ORDER_REQUEST});
-        dispatch(fetchOrderRequest("/orders", {
-            body: JSON.stringify({ingredients}),
-            headers: new Headers([
-                ['Content-Type', 'application/json'],
-            ]),
-            method: 'POST',
-        }));
+        dispatch(fetchOrderRequest(ingredients));
     };
 
-    function openModal(e) {
+    function openModal(e: React.SyntheticEvent) {
         e.stopPropagation();
         debugger;
         if (isAuth) {
@@ -42,13 +39,9 @@ function FinishOrder(props) {
         } else {
            navigate('/login');
         }
-
-
-
     }
 
-    function closeModal(e) {
-        e.stopPropagation();
+    function closeModal() {
         setModal(false);
         dispatch({type: CLEAR_ORDER});
     }
@@ -71,13 +64,5 @@ function FinishOrder(props) {
         </div>
     )
 }
-
-FinishOrder.propTypes = {
-    totalSum: PropTypes.number
-};
-
-IngredientContext.propTypes = {
-    arrIngredient: PropTypes.arrayOf(PropTypes.shape(dataIngredient).isRequired).isRequired
-};
 
 export default React.memo(FinishOrder);

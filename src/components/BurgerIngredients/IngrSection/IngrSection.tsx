@@ -1,16 +1,22 @@
 import React, {useEffect} from 'react';
 import  s from './IngrSection.module.css'
 import Ingredient from "../Ingredient/Ingredient";
-import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from "react-redux";
 import {useInView} from "react-intersection-observer";
 import {setCurrentTabAction} from "../../../services/actions/ingredientActions";
 import {ingredientsSelector} from "../../../services/selectors/selectors";
+import {TIngredient} from "../../../Types/types";
 
-const IngrSection = React.forwardRef((props, ref2) => {
-    let ingrType;
+type TIngrType = 'bun'|'sauce'|'main'|'unknown';
+type TProps = {
+    name: string;
+}
+type TIngArr = Array<TIngredient & {count: number}>;
+type TRef = HTMLDivElement;
+const IngrSection = React.forwardRef<TRef, TProps> ((props, ref2) => {
+    let ingrType: TIngrType;
     const dispatch = useDispatch();
-    const arrIngredient = useSelector(ingredientsSelector);
+    const arrIngredient: TIngArr = useSelector(ingredientsSelector);
     switch (props.name){
             case "Булки": ingrType='bun'; break;
             case "Соусы": ingrType='sauce'; break;
@@ -38,7 +44,7 @@ const IngrSection = React.forwardRef((props, ref2) => {
                         if(el.type === ingrType)
                             return (
                                 <div className={s.ingr + " ml-4 mr-2"} key = {el._id} >
-                                    <Ingredient count = {el?.count} {...el}  />
+                                    <Ingredient {...el}  />
                                 </div>
                             )
                         else return  null;
@@ -48,8 +54,5 @@ const IngrSection = React.forwardRef((props, ref2) => {
         )
 });
 
-IngrSection.propTypes = {
-    name: PropTypes.string
-};
 export  default  IngrSection;
 

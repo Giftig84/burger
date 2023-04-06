@@ -1,21 +1,22 @@
-import React from 'react';
+import React, {FC} from 'react';
 import  s from './Page.module.css'
 import { Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useDispatch, useSelector} from "react-redux";
 import { Navigate , Link } from "react-router-dom";
 import {authSelector} from "../services/selectors/selectors";
 import {userRegistration} from "../services/actions/userAction";
+import {TDispatch, TUser} from "../Types/types";
 
-export  function  Registration() {
-    const [nameValue, setNameValue] = React.useState('');
-    const [emailValue, setEmailValue] = React.useState('');
-    const [passValue, setPassValue] = React.useState('');
-    const dispatch = useDispatch();
-    const isAuth = useSelector(authSelector);
+export  const  Registration:FC = () => {
+    const [nameValue, setNameValue] = React.useState<string>('');
+    const [emailValue, setEmailValue] = React.useState<string>('');
+    const [passValue, setPassValue] = React.useState<string>('');
+    const dispatch: TDispatch = useDispatch();
+    const isAuth: boolean = useSelector(authSelector);
 
-    const registration = (e => {
+    const registration = ((e: React.SyntheticEvent) => {
         e.preventDefault();
-        const userData = {
+        const userData: TUser = {
             email: emailValue,
             password: passValue,
             name: nameValue,

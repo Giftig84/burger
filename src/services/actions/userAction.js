@@ -1,4 +1,4 @@
-import {BASE_URL} from "../../ImportFiles/endPointUrl";
+import {BASE_URL, TOKEN_KEY} from "../../ImportFiles/endPointUrl";
 import {checkResponse, setCookie} from "../../Utils/Utils";
 import {getCookie, deleteCookie} from "../../Utils/Utils";
 
@@ -105,7 +105,7 @@ export  async function refreshToken () {
 
 }
  async function reqUser () {
-    const token = getCookie('token');
+    const token = getCookie(TOKEN_KEY);
 
     return  await fetch(BASE_URL + "/auth/user", {
             method: 'GET',
@@ -175,7 +175,7 @@ export function userLogout() {
         }).then(checkResponse)
             .then((parsedResponse) => {
                 if (parsedResponse && parsedResponse.success) {
-                    deleteCookie("token", "/");
+                    deleteCookie(TOKEN_KEY, "/");
                     localStorage.removeItem("refreshToken");
                     dispatch({
                         type: USER_LOGOUT_SUCCESS
@@ -198,7 +198,7 @@ export const updateUser = (userData) => {
         try {
 
             dispatch({type: USER_UPDATE_REQUEST})
-            const token = getCookie('token');
+            const token = getCookie(TOKEN_KEY);
             const parsedResponse =  await fetch(BASE_URL + "/auth/user", {
                     method: 'PATCH',
                     mode: 'cors',
@@ -234,7 +234,7 @@ export const updateUser = (userData) => {
                         credentials: 'same-origin',
                         headers: {
                             "Content-Type": "application/json",
-                            "Authorization": getCookie('token')
+                            "Authorization": getCookie(TOKEN_KEY)
                         },
                         redirect: 'follow',
                         referrerPolicy: 'no-referrer',

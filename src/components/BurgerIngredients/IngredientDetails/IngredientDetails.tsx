@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {FC} from 'react';
 import  s from './IngredientDetails.module.css'
-import PropTypes from 'prop-types';
 import {useSelector} from "react-redux";
 import {ingredientsModalSelector} from "../../../services/selectors/selectors";
+import {TIngredient} from "../../../Types/types";
 
-function IngredientDetails () {
-const  details = useSelector(ingredientsModalSelector);
+const IngredientDetails:FC = () =>{
+const  details:TIngredient & {title: string} = useSelector(ingredientsModalSelector);
     return(
         <div className={s.main}>
             <div className={s.header +" ml-10 mt-10 mr-10"}>
@@ -43,12 +43,5 @@ const  details = useSelector(ingredientsModalSelector);
     )
 
 }
-IngredientDetails.propTypes = {
-    title: PropTypes.string,
-    name: PropTypes.string,
-    calories: PropTypes.number,
-    fat: PropTypes.number,
-    proteins: PropTypes.number,
-    image_large: PropTypes.string
-}
+
 export  default IngredientDetails ;

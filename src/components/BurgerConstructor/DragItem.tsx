@@ -1,12 +1,21 @@
 import s from "./BurgerConstructor.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
+import React, {FC} from "react";
 import {useDrag, useDrop} from "react-dnd";
 import {useDispatch} from "react-redux";
 import {decrementCounterAction} from "../../services/actions/ingredientActions";
 import {deleteConstructorItemAction} from "../../services/actions/constructorActions";
+import {TOrderIngredient} from "../../Types/types";
 
- function DragItem ({el, index, sortIngredients}) {
+type TProps = {
+    el: TOrderIngredient;
+    index: number;
+    sortIngredients: (A: number,B: number)=>void;
+}
+type TDragObj = {
+    index: number;
+}
+const DragItem: FC<TProps> =  ({el, index, sortIngredients}) =>{
 
      const dispatch = useDispatch();
 
@@ -18,7 +27,7 @@ import {deleteConstructorItemAction} from "../../services/actions/constructorAct
      });
      const [, drop] = useDrop({
          accept: 'item',
-         drop(dragged) {
+         drop(dragged: TDragObj) {
              sortIngredients(dragged.index, index);
          },
      });

@@ -5,9 +5,15 @@ import {useDispatch, useSelector} from "react-redux";
 import {setCurrentTabAction} from "../../../services/actions/ingredientActions";
 import {currentTabSelector} from "../../../services/selectors/selectors";
 
-function Tabs ({sauce, bun, main}){
+type TProps = {
+    sauce: React.RefObject<HTMLDivElement>;
+    bun: React.RefObject<HTMLDivElement>;
+    main: React.RefObject<HTMLDivElement>;
+}
 
-    const clickScroll = (ref) => {
+const  Tabs: React.FC<TProps> =  ({sauce, bun, main})=>{
+
+    const clickScroll = (ref:React.RefObject<any>) => {
         return ref.current.scrollIntoView({ behavior: "smooth"});
     }
     const current = useSelector(currentTabSelector)
