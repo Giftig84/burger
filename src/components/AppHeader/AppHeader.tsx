@@ -19,9 +19,9 @@ const AppHeader: FC = () => {
                         </div>
                         <div className={"ml-1"}>
                             <HeaderButton icon={<ListIcon
-                                type={location.pathname === 'profile/orders' ? 'primary' : 'secondary'}/>}
-                                          link='/profile/orders' text="Лента заказов"
-                                          type={location.pathname === 'profile/orders' ? 'primary' : 'secondary'}/>
+                                type={location.pathname === '/feed' ? 'primary' : 'secondary'}/>}
+                                          link='/feed' text="Лента заказов"
+                                          type={location.pathname === '/feed' ? 'primary' : 'secondary'}/>
                         </div>
                     </div>
                     <div className={s.logo}>

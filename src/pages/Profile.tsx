@@ -53,7 +53,7 @@ export  const Profile:FC = () => {
     return(
         <div className={s.profile}>
             <div className={s.navigation}>
-                <ProfileNavigation/>
+                <ProfileNavigation description={"В этом разделе вы можете изменить свои персональные данные"}/>
             </div>
 
             <div  className = "mt-20">

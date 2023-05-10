@@ -11,11 +11,17 @@ import {
     USER_LOGOUT_ERROR,
     USER_UPDATE_REQUEST,
     USER_UPDATE_SUCCESS,
-    USER_UPDATE_ERROR, USER_FGT_PSW_SUCCESS, USER_RST_PSW_SUCCESS
+    USER_UPDATE_ERROR, USER_FGT_PSW_SUCCESS, USER_RST_PSW_SUCCESS, TUserAction, TUserRedux
 } from "../actions/userAction";
 
-
-const defaultState = {
+type TUserState = {
+    user: TUserRedux | {};
+    isLoading: boolean;
+    isError: boolean;
+    isAuth: boolean;
+    isResetPsw: boolean;
+}
+const defaultState: TUserState = {
     user: {},
     isLoading: false,
     isError: false,
@@ -24,7 +30,7 @@ const defaultState = {
 
 }
 
-export const userReducer = (state = defaultState, action) => {
+export const userReducer = (state = defaultState, action: TUserAction) => {
     switch (action.type) {
         case REGISTER_USER_REQUEST:
             return {...state, isLoading: true, isError: false};

@@ -1,14 +1,25 @@
 
-import {INGREDIENT_MODAL_REQUEST, INGREDIENT_MODAL_SUCCESS, INGREDIENT_MODAL_ERROR, UNSET_DETAILS} from "../actions/modalDetailsActions";
+import {
+    INGREDIENT_MODAL_REQUEST,
+    INGREDIENT_MODAL_SUCCESS,
+    INGREDIENT_MODAL_ERROR,
+    UNSET_DETAILS,
+    TModalDetailActions
+} from "../actions/modalDetailsActions";
+import {TIngredient} from "../../Types/types";
 
-
-const defaultState = {
+export  type  TModalDetailsState = {
+    modalDetails: TIngredient | {};
+    isLoading: boolean;
+    hasError: boolean;
+}
+const defaultState: TModalDetailsState = {
     modalDetails: {},
     isLoading: false,
     hasError: false
 }
 
-export const modalDetailsReducer= (state = defaultState, action) => {
+export const modalDetailsReducer= (state = defaultState, action: TModalDetailActions) => {
 
     switch (action.type) {
         case INGREDIENT_MODAL_REQUEST:

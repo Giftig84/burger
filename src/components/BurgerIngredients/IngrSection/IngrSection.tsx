@@ -7,7 +7,7 @@ import {setCurrentTabAction} from "../../../services/actions/ingredientActions";
 import {ingredientsSelector} from "../../../services/selectors/selectors";
 import {TIngredient} from "../../../Types/types";
 
-type TIngrType = 'bun'|'sauce'|'main'|'unknown';
+export type TIngrType = 'bun'|'sauce'|'main'|'unknown';
 type TProps = {
     name: string;
 }

@@ -4,8 +4,8 @@ import { NavLink, useLocation, useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {userLogout} from "../../services/actions/userAction";
 import {TDispatch} from "../../Types/types";
-
-export const ProfileNavigation:FC = () =>{
+type TProps = { description?: string;}
+export const ProfileNavigation:FC<TProps> = (props) =>{
     let location = useLocation();
     const dispatch: TDispatch = useDispatch();
     const navigate = useNavigate();
@@ -22,8 +22,7 @@ export const ProfileNavigation:FC = () =>{
                      >История заказов</NavLink>
             <div onClick={logOut}
                      className={s.link + " text text_type_main-medium text_color_inactive"}>Выход</div>
-            <p className={"text text_type_main-default text_color_inactive mt-20"}>В этом разделе вы можете
-                изменить свои персональные данные</p>
+            <p className={"text text_type_main-default text_color_inactive mt-20"}>{props.description}</p>
         </div>
     )
 

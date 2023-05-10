@@ -1,0 +1,75 @@
+.main {
+    text-align: left;
+    width: 600px;
+    height: 912px;
+    left: 380px;
+    top: 128px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #131316;
+
+}
+
+.tableTop {
+    display: flex;
+    flex-direction: row;
+
+    gap: 36px;
+}
+.tableHeader {
+    text-align: left;
+
+    width: 272px;
+}
+.orderList {
+    flex-direction: column;
+    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+    height: 213px;
+
+}
+.doneOrder {
+    color: #00CCCC;
+}
+.total{
+    text-shadow: 0 0 25px #4C4CFF;
+    width: 600px;
+
+}
+.text {
+    text-align: left;
+    width: 600px;
+    margin-bottom: 0;
+}
+
+.scroll {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 16px ;
+    height: 464px;
+    width: 584px;
+}
+.scroll::-webkit-scrollbar {
+    width: 10px;
+}
+
+.scroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+    background-color:  #2F2F37;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+    background: #8585AD;
+}
+.fin {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 40px;
+}
+.dragIcon  {
+    width: 32px
+}

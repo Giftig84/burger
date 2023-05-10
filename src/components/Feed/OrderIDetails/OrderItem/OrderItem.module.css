@@ -1,0 +1,33 @@
+.main {
+    width: 640px;
+    height: 64px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.img {
+    width: 112px;
+    height: 56px;
+    top: 3px;
+    margin-left: -24px;
+}
+
+.imgFr {
+    width: 64px;
+    height: 64px;
+    border-radius: 100px;
+    background: linear-gradient(#131316, #131316) padding-box,
+    linear-gradient(to right, #801ab2, #4c4cff) border-box;
+    border: 2px solid transparent;
+    text-align: center;
+}
+.name {
+    width: 414px;
+}
+
+.price{
+    display: flex;
+    flex-direction: row;
+}

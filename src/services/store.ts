@@ -7,14 +7,25 @@ import {constructorReducer} from "./reducers/constructorReducer";
 import {modalReducer} from "./reducers/modalReducer";
 import {userReducer} from "./reducers/userReducer";
 import {modalDetailsReducer} from "./reducers/modalDetailsReducer";
+import {socketMiddleware} from "./Middleware/FeedMiddleware";
+import {wsFeedReducer} from "./reducers/wsFeedReducer";
+import {modalFeedOrderReducer} from "./reducers/modalFeedOrderReducer";
 
 const rootReducer = combineReducers({
     ingr: ingredientsReducer,
     modalOrder: modalReducer,
     constr: constructorReducer,
     user: userReducer,
-    modal: modalDetailsReducer
+    modal: modalDetailsReducer,
+    feedAll: wsFeedReducer,
+    modalFeedOrder: modalFeedOrderReducer
 
 })
 
-export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+export const store = createStore(rootReducer,
+    composeWithDevTools(
+        applyMiddleware(thunk),
+        applyMiddleware(socketMiddleware())
+    )
+
+);
