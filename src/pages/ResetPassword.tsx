@@ -1,21 +1,20 @@
-import React, {FC} from 'react';
+import React, {FC, FormEventHandler} from 'react';
 import s from './Page.module.css'
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import {useDispatch, useSelector} from "react-redux";
 import {Link, Navigate,  useNavigate} from "react-router-dom";
 import {BASE_URL} from "../ImportFiles/endPointUrl";
 import {checkResponse} from "../Utils/Utils";
 import { rstPswSelector} from "../services/selectors/selectors";
 import {USER_RST_PSW_SUCCESS} from "../services/actions/userAction";
-import {TDispatch} from "../Types/types";
+import { useAppDispatch, useAppSelector} from "../Types/types";
 
 export const ResetPassword:FC = () =>  {
     const [showPass, setShowPass] = React.useState<boolean>(false);
     const [emailCode, setEmailCode] = React.useState<string>('');
     const [password, setPassword] = React.useState<string>('');
     const navigate = useNavigate();
-    const isRstPWD: boolean | undefined = useSelector(rstPswSelector);
-    const dispatch: TDispatch = useDispatch();
+    const isRstPWD = useAppSelector(rstPswSelector);
+    const dispatch = useAppDispatch();
 
     if (!isRstPWD) {
         return (
@@ -53,8 +52,12 @@ export const ResetPassword:FC = () =>  {
     const onIconClick = () => {
         setShowPass(!showPass);
     }
+    const submitHandler: FormEventHandler<HTMLFormElement>  = ((e: React.SyntheticEvent) => {
+        e.preventDefault();
+        resetPassword();
+    });
     return (
-        <div className={s.main}>
+        <form className={s.main} onSubmit={submitHandler}>
             <div className={s.header + " mt-10 mb-6"}>
                 <p className="text text_type_main-medium">Восстановление пароля</p>
             </div>
@@ -82,16 +85,14 @@ export const ResetPassword:FC = () =>  {
                 size={'default'}
                 extraClass="mb-6"
             />
-            <Button htmlType="submit" type="primary" size="medium" onClick={resetPassword}>
+            <Button htmlType="submit" type="primary" size="medium">
                 Сохранить
             </Button>
             <div className={s.bottom + " mt-20 "}>
                 <p className="text text_type_main-default text_color_inactive mr-4">Вспомнили пароль?</p>
                 <Link to={{pathname: `/login`}} className="text text_type_main-default">Войти</Link>
             </div>
-
-
-        </div>
+        </form>
 
     )
 }

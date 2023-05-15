@@ -2,7 +2,6 @@ import React, {FC} from 'react';
 import { ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components';
 import  s from './BurgerConstructor.module.css';
 import FinishOrder from './FinishOrder/FinishOrder';
-import {useDispatch, useSelector} from "react-redux";
 import { useDrop} from "react-dnd";
 import {decrementCounterAction, incrementCounterAction} from "../../services/actions/ingredientActions";
 import {addIngredientAction,sortIngredientAction} from "../../services/actions/constructorActions";
@@ -10,14 +9,14 @@ import {useMemo, useCallback} from "react";
 import uuid from 'react-uuid';
 import DragItem from "./DragItem";
 import {bunSelector, ingredientsSelector, noBunSelector} from "../../services/selectors/selectors";
-import {TIngredient, TOrderIngredient} from "../../Types/types";
+import {TIngredient, useAppDispatch, useAppSelector} from "../../Types/types";
 
 const BurgerConstructor: FC = () => {
 
-    const order: Array<TOrderIngredient> = useSelector(noBunSelector);
-    const bun: TOrderIngredient = useSelector(bunSelector);
-    const allIngredietn: Array<TOrderIngredient> = useSelector(ingredientsSelector);
-    const dispatch = useDispatch();
+    const order = useAppSelector(noBunSelector);
+    const bun = useAppSelector(bunSelector);
+    const allIngredietn = useAppSelector(ingredientsSelector);
+    const dispatch = useAppDispatch();
 
 
     const totalSum = useMemo<number>( ()=>{

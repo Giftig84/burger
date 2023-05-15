@@ -1,11 +1,10 @@
 import React, {FC} from 'react';
 import  s from './FeedMainInfo.module.css';
-import { useSelector} from "react-redux";
-import {TOrder, TOrderResponse} from "../../../Types/types";
+import {TOrder, useAppSelector} from "../../../Types/types";
 import {allFeedSelector} from "../../../services/selectors/selectors";
 
 const FeedMainInfo: FC = () => {
-    const feed: TOrderResponse = useSelector(allFeedSelector);
+    const feed = useAppSelector(allFeedSelector);
     const orders: Array<TOrder> = feed?.orders ? feed?.orders : [];
     const doneOrder = orders.filter(el => el.status  === 'done');
     const pendingOrder = orders.filter(el => el.status === 'pending');

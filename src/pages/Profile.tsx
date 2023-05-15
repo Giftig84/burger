@@ -1,14 +1,13 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, FormEventHandler, useEffect} from 'react';
 import  s from './Page.module.css'
 import {Button, Input} from '@ya.praktikum/react-developer-burger-ui-components';
-import {useDispatch, useSelector} from "react-redux";
 import {ProfileNavigation} from "../components/ProfileNavigation/ProfileNavigation";
 import {userSelector} from "../services/selectors/selectors";
 import { updateUser} from "../services/actions/userAction";
-import {TDispatch, TUser} from "../Types/types";
+import { TUser, useAppDispatch, useAppSelector} from "../Types/types";
 
 export  const Profile:FC = () => {
-    const user: TUser = useSelector(userSelector);
+    const user = useAppSelector(userSelector);
 
     const [userForm, setUserForm] = React.useState<TUser>({
         email: '',
@@ -16,7 +15,7 @@ export  const Profile:FC = () => {
         name: ''
     });
 
-    const dispatch: TDispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     useEffect(()=>{
         if(user) setUserForm({
@@ -35,7 +34,7 @@ export  const Profile:FC = () => {
     });
     };
 
-    const handleSubmit = (e: React.SyntheticEvent) =>{
+    const handleSubmit: FormEventHandler<HTMLFormElement> = (e: React.SyntheticEvent) =>{
         e.preventDefault();
         dispatch(updateUser(userForm));
     }
@@ -56,7 +55,7 @@ export  const Profile:FC = () => {
                 <ProfileNavigation description={"В этом разделе вы можете изменить свои персональные данные"}/>
             </div>
 
-            <div  className = "mt-20">
+            <form  className = "mt-20" onSubmit={handleSubmit}>
                 <Input
                     type={'text'}
                     placeholder={'Имя'}
@@ -93,9 +92,9 @@ export  const Profile:FC = () => {
                     size={'default'}
                     extraClass="mb-6"
                 />
-                <Button htmlType="button" size="medium" extraClass="mb-6 mr-6" onClick={(e) => handleSubmit(e)}>Сохранить</Button>
+                <Button htmlType='submit' size="medium" extraClass="mb-6 mr-6" >Сохранить</Button>
                 <Button htmlType="button" size="medium" extraClass="mb-6" onClick={(e) => cancelSubmit(e)}>Отменить</Button>
-            </div>
+            </form>
 
         </div>
 

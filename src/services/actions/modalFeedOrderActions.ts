@@ -18,7 +18,7 @@ export interface IOrderModalRequest {
 
 export interface IOrderSuccess {
     readonly type: typeof ORDER_MODAL_SUCCESS;
-    payload: TOrder;
+    payload: Array<TOrder> ;
 }
 
 export interface IOrderModalError {
@@ -31,7 +31,7 @@ export const unsetOrderModalDetailsAction = (): IUnsetOrderModalDetailsAction =>
 
 
 
-export const getSingleOrderRequest = (orderNumber: string| undefined) =>{
+export const getSingleOrderRequest = (orderNumber: string) =>{
     return async function(dispatch: TDispatch) {
         try{
 

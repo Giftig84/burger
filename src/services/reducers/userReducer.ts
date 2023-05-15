@@ -15,14 +15,14 @@ import {
 } from "../actions/userAction";
 
 type TUserState = {
-    user: TUserRedux | {};
+    user: TUserRedux ;
     isLoading: boolean;
     isError: boolean;
     isAuth: boolean;
     isResetPsw: boolean;
 }
 const defaultState: TUserState = {
-    user: {},
+    user: {name: "", email: ""},
     isLoading: false,
     isError: false,
     isAuth: false,
@@ -47,7 +47,7 @@ export const userReducer = (state = defaultState, action: TUserAction) => {
         case AUTH_USER_ERROR:
             return {...state, isLoading: false, isError: true};
         case USER_LOGOUT_SUCCESS:
-            return {...state, isLoading: false, isError: false, user: {}, isAuth: false};
+            return {...state, isLoading: false, isError: false, user: {name: "", email: ""}, isAuth: false};
         case USER_LOGOUT_REQUEST:
             return {...state, isLoading: true, isError: false};
         case USER_LOGOUT_ERROR:

@@ -1,11 +1,10 @@
 import React, {useEffect} from 'react';
 import  s from './IngrSection.module.css'
 import Ingredient from "../Ingredient/Ingredient";
-import {useDispatch, useSelector} from "react-redux";
 import {useInView} from "react-intersection-observer";
 import {setCurrentTabAction} from "../../../services/actions/ingredientActions";
 import {ingredientsSelector} from "../../../services/selectors/selectors";
-import {TIngredient} from "../../../Types/types";
+import {TIngredient, useAppDispatch, useAppSelector} from "../../../Types/types";
 
 export type TIngrType = 'bun'|'sauce'|'main'|'unknown';
 type TProps = {
@@ -15,8 +14,8 @@ type TIngArr = Array<TIngredient & {count: number}>;
 type TRef = HTMLDivElement;
 const IngrSection = React.forwardRef<TRef, TProps> ((props, ref2) => {
     let ingrType: TIngrType;
-    const dispatch = useDispatch();
-    const arrIngredient: TIngArr = useSelector(ingredientsSelector);
+    const dispatch = useAppDispatch();
+    const arrIngredient = useAppSelector(ingredientsSelector);
     switch (props.name){
             case "Булки": ingrType='bun'; break;
             case "Соусы": ingrType='sauce'; break;

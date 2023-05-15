@@ -1,5 +1,5 @@
 import {
-    ADD_INGREDIENT, DELETE_INGREDIENT, SORT_INGREDIENT, TConstructorActions
+    ADD_INGREDIENT, CLEAR_INGREDIENTS, DELETE_INGREDIENT, SORT_INGREDIENT, TConstructorActions
 } from "../actions/constructorActions";
 import {TOrderIngredient} from "../../Types/types";
 
@@ -44,6 +44,8 @@ export const constructorReducer= (state = defaultState, action: TConstructorActi
             index = arr.findIndex((el => el.id === action.payload));
             arr.splice(index,1);
             return {...state, arrConstrIngr: arr};
+        case CLEAR_INGREDIENTS:
+            return {...state, arrConstrIngr: []};
 
         default:
             return state;

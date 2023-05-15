@@ -9,12 +9,12 @@ import {
 import {TIngredient} from "../../Types/types";
 
 export  type  TModalDetailsState = {
-    modalDetails: TIngredient | {};
+    modalDetails: TIngredient | undefined ;
     isLoading: boolean;
     hasError: boolean;
 }
 const defaultState: TModalDetailsState = {
-    modalDetails: {},
+    modalDetails: undefined,
     isLoading: false,
     hasError: false
 }
@@ -32,7 +32,7 @@ export const modalDetailsReducer= (state = defaultState, action: TModalDetailAct
             return {...state, modalDetails: action.payload, isModal: true};
 
         case UNSET_DETAILS:
-            return {...state, modalDetails: {}};
+            return {...state, modalDetails: undefined};
 
         default:
             return state;

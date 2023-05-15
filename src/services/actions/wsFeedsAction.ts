@@ -14,12 +14,12 @@ export interface IConnectionStartAction {
 }
 export interface IGetMessageAction {
     readonly type: typeof WS_GET_MESSAGE;
-    payload: TOrderResponse | {};
+    payload: TOrderResponse;
 }
 
 export interface IConnectionErrorAction {
     readonly type: typeof WS_CONNECTION_ERROR;
-    payload: string;
+    payload: Event;
 }
 
 export interface IConnectionClosedAction {

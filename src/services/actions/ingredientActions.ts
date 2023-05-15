@@ -11,6 +11,7 @@ export const INCREMENT_COUNTER: 'INCREMENT_COUNTER' = "INCREMENT_COUNTER";
 export const DECREMENT_COUNTER: 'DECREMENT_COUNTER' = "DECREMENT_COUNTER";
 export const SET_CURRENT: 'SET_CURRENT' = "SET_CURRENT";
 export const CLEAR_INGREDIENT: 'CLEAR_INGREDIENT' = "CLEAR_INGREDIENT";
+export const CLEAR_COUNTER: 'CLEAR_COUNTER' = "CLEAR_COUNTER";
 
 interface IIncrementCounterAction {
     readonly type: typeof INCREMENT_COUNTER;
@@ -28,6 +29,9 @@ interface ISetCurrentTabAction {
 interface IIngredientsRequest {
     readonly type: typeof INGREDIENTS_REQUEST;
 }
+interface IClearCounter {
+    readonly type: typeof CLEAR_COUNTER;
+}
 interface IIngredientsError {
     readonly type: typeof INGREDIENTS_ERROR;
 }
@@ -43,7 +47,7 @@ interface IIngredientsClear {
 
 
 export type TIngredientActions = IIncrementCounterAction | IDecrementCounterAction | ISetCurrentTabAction | IIngredientsRequest
-    | IIngredientsError | IIngredientsSuccess | IIngredientsClear | any;
+    | IIngredientsError | IIngredientsSuccess | IIngredientsClear | any | IClearCounter;
 
 export const incrementCounterAction = (payload: string): IIncrementCounterAction => ({ type: INCREMENT_COUNTER, payload });
 export const decrementCounterAction = (payload: string): IDecrementCounterAction => ({ type: DECREMENT_COUNTER, payload });

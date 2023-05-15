@@ -1,6 +1,6 @@
 import {
     DECREMENT_COUNTER, INGREDIENTS_SUCCESS, INCREMENT_COUNTER,
-    SET_CURRENT, CLEAR_INGREDIENT, INGREDIENTS_REQUEST, INGREDIENTS_ERROR, TIngredientActions
+    SET_CURRENT, CLEAR_INGREDIENT, INGREDIENTS_REQUEST, INGREDIENTS_ERROR, TIngredientActions, CLEAR_COUNTER
 } from "../actions/ingredientActions";
 import {TIngredient} from "../../Types/types";
 import {TIngrType} from "../../components/BurgerIngredients/IngrSection/IngrSection";
@@ -55,6 +55,15 @@ export const ingredientsReducer= (state = defaultState, action: TIngredientActio
 
         case SET_CURRENT:
             return {...state, currentTab: action.payload};
+
+        case CLEAR_COUNTER:
+
+            arr = [ ...state.arrIngredient];
+            arr = arr.map(el=> {
+                if(el.count !== undefined ) el.count = 0;
+                return el;
+            })
+            return {...state, arrIngredient: arr};
 
         default:
             return state;

@@ -9,18 +9,22 @@ import type { TOrderResponse} from "../../Types/types";
 
 type TWSState = {
     wsConnected: boolean;
-    feed: TOrderResponse | {};
-
+    feed: TOrderResponse;
     error?: Event;
 }
 
-const initialState:TWSState = {
+const defaultState:TWSState = {
     wsConnected: false,
-    feed: {}
+    feed: {
+        success: false,
+        orders: [],
+        total: 0,
+        totalToday: 0,
+    }
 };
 
 // Создадим редьюсер для WebSocket
-export const wsFeedReducer = (state = initialState, action: TWSFeedAction) => {
+export const wsFeedReducer = (state = defaultState, action: TWSFeedAction) => {
     switch (action.type) {
         // Опишем обработку экшена с типом WS_CONNECTION_SUCCESS
         // Установим флаг wsConnected в состояние true
@@ -47,7 +51,12 @@ export const wsFeedReducer = (state = initialState, action: TWSFeedAction) => {
                 ...state,
                 error: undefined,
                 wsConnected: false,
-                feed: {}
+                feed: {
+                    success: false,
+                    orders: [],
+                    total: 0,
+                    totalToday: 0,
+                }
             };
 
         // Опишем обработку экшена с типом WS_GET_MESSAGE
@@ -57,6 +66,7 @@ export const wsFeedReducer = (state = initialState, action: TWSFeedAction) => {
             return {
                 ...state,
                 error: undefined,
+
                 feed:  action.payload
             };
         default:

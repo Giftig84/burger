@@ -7,12 +7,12 @@ import {
     UNSET_ORDER_DETAILS
 } from "../actions/modalFeedOrderActions";
 
-export  type  TModalOrderState = {
+export  type  TModalFeedOrderState = {
     modalDetails: Array<TOrder> | [];
     isLoading: boolean;
     hasError: boolean;
 }
-const defaultState: TModalOrderState = {
+const defaultState: TModalFeedOrderState = {
     modalDetails: [],
     isLoading: false,
     hasError: false

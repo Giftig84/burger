@@ -1,6 +1,8 @@
 import {BASE_URL, TOKEN_KEY} from "../../ImportFiles/endPointUrl";
 import {checkResponse, getCookie} from "../../Utils/Utils";
 import {TDispatch} from "../../Types/types";
+import {CLEAR_INGREDIENTS} from "./constructorActions";
+import {CLEAR_COUNTER} from "./ingredientActions";
 
 export const ORDER_REQUEST: 'ORDER_REQUEST' = "ORDER_REQUEST";
 export const ORDER_SUCCESS: 'ORDER_SUCCESS' = "ORDER_SUCCESS";
@@ -46,6 +48,12 @@ export const fetchOrderRequest = (ingredients: string[])=>{
             }).then(checkResponse);
             let request = {type: ORDER_SUCCESS, payload: {response: parsedResponse}};
             dispatch(request);
+            if(parsedResponse.order.number)
+            {
+                dispatch({type: CLEAR_INGREDIENTS});
+                dispatch({type: CLEAR_COUNTER});
+            }
+
         }
         } catch (e: unknown) {
             dispatch({type: ORDER_ERROR});

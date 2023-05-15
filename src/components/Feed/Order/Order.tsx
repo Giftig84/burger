@@ -2,9 +2,8 @@ import React, {FC, useMemo} from 'react';
 import { CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import s from './Order.module.css'
 import {Link, useLocation} from "react-router-dom";
-import { TOrder, TIngredient} from "../../../Types/types";
+import {TOrder, useAppSelector} from "../../../Types/types";
 import {FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useSelector} from "react-redux";
 import {ingredientsSelector} from "../../../services/selectors/selectors";
 
 
@@ -13,7 +12,7 @@ const Order: FC<TProps> = (props) => {
     const allIngredients = props.ingredients;
 
     const location = useLocation();
-    const arrIngredient: Array<TIngredient> = useSelector(ingredientsSelector);
+    const arrIngredient = useAppSelector(ingredientsSelector);
 
     const getPrice = (id: string): number => {
         let index = arrIngredient.findIndex((el => el._id === id))

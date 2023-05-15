@@ -1,13 +1,14 @@
-import React, {FC} from 'react';
-import s from './OrderDetails.module.css'
-import {useSelector} from "react-redux";
+import React, {FC, useCallback} from 'react';
+import s from './OrderDetails.module.css';
 import {
     ingredientsSelector,
     singleFeedOrderSelector
 } from "../../../services/selectors/selectors";
-import {TIngredient, TOrder} from "../../../Types/types";
+import { useAppDispatch, useAppSelector} from "../../../Types/types";
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {OrderItem} from "./OrderItem/OrderItem";
+import {getSingleOrderRequest, ORDER_MODAL_REQUEST} from "../../../services/actions/modalFeedOrderActions";
+import {useParams} from "react-router-dom";
 
 type TDistinct = {
     name: string;
@@ -17,8 +18,11 @@ type TDistinct = {
 }
 
 const OrderDetails: FC = () => {
-    const details: Array<TOrder> = useSelector(singleFeedOrderSelector);
-    const arrIngredient: Array<TIngredient> = useSelector(ingredientsSelector);
+
+    const details= useAppSelector(singleFeedOrderSelector);
+    const arrIngredient= useAppSelector(ingredientsSelector);
+    const {id} = useParams();
+    const dispatch = useAppDispatch();
     const arrDistinctIngr: Array<TDistinct> = [];
     let burgerPrice: number = 0;
 
@@ -29,6 +33,16 @@ const OrderDetails: FC = () => {
         details[0].ingredients.forEach(el => {
             ingrSortArray.has(el) ? ingrSortArray.set(el, ingrSortArray.get(el) + 1) : ingrSortArray.set(el, 1);
         });
+
+    const init = useCallback(() => {
+        if (details.length == 0 && id) {
+            dispatch({type: ORDER_MODAL_REQUEST});
+            dispatch(getSingleOrderRequest(id));
+        }
+    }, [details, dispatch, id]);
+    React.useEffect(() => {
+        init();
+    }, [id]);
 
     // собирем финальный массив для отрисовки элементов бургера
     ingrSortArray.forEach((value, key, map) => {
