@@ -20,7 +20,7 @@ const Modal:FC<TProps> = (props)=>{
         document.addEventListener('keydown', closeByEsc);
         return () => document.removeEventListener('keydown', closeByEsc)
     }, [closeModal]);
-debugger;
+
     return ReactDOM.createPortal (
         (
             <>

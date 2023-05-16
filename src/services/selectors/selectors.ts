@@ -6,7 +6,7 @@ export const noBunSelector = (state: TRootState)  => state.constr.arrConstrIngr.
 export const bunSelector = (state: TRootState)  => state.constr.arrConstrIngr.find((el) => el.type === "bun");
 export const allOrderSelector = (state: TRootState)  => state.constr.arrConstrIngr;
 export const orderResponseSelector = (state: TRootState)  => state.modalOrder.orderResponse;
-export const isLoadingSelector = (state: TRootState)  => (state.ingr.isLoading || state.modalOrder.isLoading || state.modalFeedOrder.isLoading);
+export const isLoadingSelector = (state: TRootState)  => (state.ingr.isLoading || state.modalOrder.isLoading || state.modalFeedOrder.isLoading || state.user.isLoading);
 export const currentTabSelector = (state: TRootState)  => state.ingr.currentTab;
 export const authSelector = (state: TRootState)  => state.user.isAuth;
 export const rstPswSelector = (state : TRootState)  => state.user.isResetPsw;
@@ -15,3 +15,4 @@ export const allFeedSelector = (state: TRootState)  => state.feedAll.feed;
 export const profileFeedSelector = (state: TRootState)  => state.feedProfile.feedProfile;
 export const singleFeedOrderSelector = (state: TRootState)  => state.modalFeedOrder.modalDetails;
 export const isLoadingOrderNumberSelector = (state: TRootState)  => state.modalOrder.isLoading;
+export const isLoadingUserSelector = (state: TRootState)  => state.user.isLoading;

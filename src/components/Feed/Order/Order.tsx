@@ -42,7 +42,7 @@ const Order: FC<TProps> = (props) => {
     }
 
     return (
-        <Link to={`${props.linkTo}${props.number}`} state={{background: location}} className={s.link + ` mb-4 mr-2`}>
+        <Link to={`${props.linkTo}${props.number}`} state={{background: location, modalUrl: `${props.linkTo}${props.number}`}} className={s.link + ` mb-4 mr-2`}>
             <div className={s.main + ` mb-4 mr-2`}>
                 <div className={s.header + ` mt-6`}>
                     <p className={`text text_type_digits-default`}>{`# ${props.number}`}</p>
