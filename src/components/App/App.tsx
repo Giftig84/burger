@@ -49,8 +49,6 @@ const App: FC = () => {
 
     const location = useLocation();
     const background = location.state && location.state.background;
-    const modalUrl = location.state?.modalUrl;
-    debugger;
     const navigate = useNavigate();
 
     const handleModalClose = (): void => {

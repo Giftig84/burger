@@ -16,3 +16,4 @@ export const profileFeedSelector = (state: TRootState)  => state.feedProfile.fee
 export const singleFeedOrderSelector = (state: TRootState)  => state.modalFeedOrder.modalDetails;
 export const isLoadingOrderNumberSelector = (state: TRootState)  => state.modalOrder.isLoading;
 export const isLoadingUserSelector = (state: TRootState)  => state.user.isLoading;
+export const isCheckedUserSelector = (state: TRootState)  => state.user.isChecked;
