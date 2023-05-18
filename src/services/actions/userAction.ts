@@ -177,6 +177,7 @@ export  async function refreshToken () {
 
 async function reqUser() {
     const token = getCookie(TOKEN_KEY);
+
     if (token !== undefined) {
         return await fetch(BASE_URL + "/auth/user", {
                 method: 'GET',
@@ -197,15 +198,17 @@ async function reqUser() {
 export const getUser = () => {
     return async function (dispatch: TDispatch) {
         try {
-
-            dispatch({type: AUTH_USER_REQUEST})
-            const parsedResponse = await reqUser();
-            if (parsedResponse && parsedResponse.success) {
-                dispatch({
-                    type: AUTH_USER_SUCCESS,
-                    user: parsedResponse.user,
-                })
-            }
+            const token = getCookie(TOKEN_KEY);
+            if (token !== undefined) {
+                dispatch({type: AUTH_USER_REQUEST})
+                const parsedResponse = await reqUser();
+                if (parsedResponse && parsedResponse.success) {
+                    dispatch({
+                        type: AUTH_USER_SUCCESS,
+                        user: parsedResponse.user,
+                    })
+                }
+            } else { dispatch({type: AUTH_USER_ERROR});}
         } catch (e) {
             try {
                 let parsedResponse =await refreshToken();
