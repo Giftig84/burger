@@ -1,9 +1,19 @@
 import {
-    ADD_INGREDIENT, DELETE_INGREDIENT, SORT_INGREDIENT
+    ADD_INGREDIENT, CLEAR_INGREDIENTS, DELETE_INGREDIENT, SORT_INGREDIENT, TConstructorActions
 } from "../actions/constructorActions";
+import {TOrderIngredient} from "../../Types/types";
 
-
-const defaultState = {
+type TConstructorReducerState = {
+    arrConstrIngr: Array<TOrderIngredient> | [];
+    orderResponse: {
+        name: string | null | undefined;
+        order:{
+            number: number;
+        };
+        success: boolean;
+    }
+}
+const defaultState: TConstructorReducerState = {
     arrConstrIngr: [],
     orderResponse: {
         "name": "",
@@ -14,9 +24,9 @@ const defaultState = {
     }
 }
 
-export const constructorReducer= (state = defaultState, action) => {
-    let arr;
-    let index;
+export const constructorReducer= (state = defaultState, action: TConstructorActions) => {
+    let arr: Array<TOrderIngredient>;
+    let index: number;
     switch (action.type) {
         case SORT_INGREDIENT:
             return {...state, arrConstrIngr: [...action.payload]};
@@ -34,6 +44,8 @@ export const constructorReducer= (state = defaultState, action) => {
             index = arr.findIndex((el => el.id === action.payload));
             arr.splice(index,1);
             return {...state, arrConstrIngr: arr};
+        case CLEAR_INGREDIENTS:
+            return {...state, arrConstrIngr: []};
 
         default:
             return state;

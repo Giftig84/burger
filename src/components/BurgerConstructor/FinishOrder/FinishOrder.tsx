@@ -3,11 +3,10 @@ import {CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-comp
 import s from './FinishOrder.module.css'
 import Modal from "../../Modal/Modal";
 import OrderDetails from "./OrderDetails/OrderDetails";
-import {useDispatch, useSelector} from "react-redux";
-import {CLEAR_ORDER, fetchOrderRequest, ORDER_REQUEST} from "../../../services/actions/modalActions";
+import {CLEAR_ORDER, fetchOrderRequest, ORDER_ERROR, ORDER_REQUEST} from "../../../services/actions/modalActions";
 import {allOrderSelector, authSelector} from "../../../services/selectors/selectors";
 import {useNavigate} from "react-router-dom";
-import {TDispatch, TOrderIngredient} from "../../../Types/types";
+import {useAppDispatch, useAppSelector} from "../../../Types/types";
 
 type TProps = {
     totalSum: number;
@@ -16,11 +15,11 @@ type TProps = {
 const FinishOrder: FC <TProps> =(props) =>{
     const [isModal, setModal] = React.useState(false);
 
-    const order: Array<TOrderIngredient> = useSelector(allOrderSelector);
-    const isAuth: boolean | undefined = useSelector(authSelector);
+    const order = useAppSelector(allOrderSelector);
+    const isAuth = useAppSelector(authSelector);
     const navigate = useNavigate();
 
-    const dispatch: TDispatch  = useDispatch();
+    const dispatch  = useAppDispatch();
 
 
     const ingredients = React.useMemo(() => order.map(el => el._id)
@@ -32,7 +31,6 @@ const FinishOrder: FC <TProps> =(props) =>{
 
     function openModal(e: React.SyntheticEvent) {
         e.stopPropagation();
-        debugger;
         if (isAuth) {
             send();
             setModal(true);
@@ -44,6 +42,8 @@ const FinishOrder: FC <TProps> =(props) =>{
     function closeModal() {
         setModal(false);
         dispatch({type: CLEAR_ORDER});
+        dispatch({type: ORDER_ERROR});
+
     }
 
     return (

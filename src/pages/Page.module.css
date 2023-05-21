@@ -20,6 +20,14 @@
     /*grid-template-columns: repeat(auto-fit, minmax(200px,1fr));*/
     grid-template-columns: 1.5fr 1fr 1.5fr;
 }
+.history {
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: grid;
+    /*grid-template-columns: repeat(auto-fit, minmax(200px,1fr));*/
+    grid-template-columns: 1fr 1fr 0.4fr;
+}
 .navigation {
     width: 100%;
     display: flex;

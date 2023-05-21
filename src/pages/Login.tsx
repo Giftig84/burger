@@ -1,20 +1,19 @@
-import React, {FC} from 'react';
+import React, {FC, FormEventHandler} from 'react';
 import  s from './Page.module.css'
 import { Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import {useDispatch, useSelector} from "react-redux";
 import { Navigate , Link } from "react-router-dom";
 import {authSelector} from "../services/selectors/selectors";
 import {loginUser} from "../services/actions/userAction";
-import {TDispatch} from "../Types/types";
+import { useAppDispatch, useAppSelector} from "../Types/types";
 
 export  const  Login:FC = ()=> {
 
     const [emailValue, setEmailValue] = React.useState<string>('');
     const [passValue, setPassValue] = React.useState<string>('');
-    const dispatch: TDispatch = useDispatch();
-    const isAuth: boolean | undefined = useSelector(authSelector);
+    const dispatch = useAppDispatch();
+    const isAuth = useAppSelector(authSelector);
 
-    const login = ((e: React.SyntheticEvent) => {
+    const login: FormEventHandler<HTMLFormElement>  = ((e: React.SyntheticEvent) => {
         e.preventDefault();
         const userData = {
             email: emailValue,
@@ -31,7 +30,7 @@ export  const  Login:FC = ()=> {
         );
     }
     return(
-        <div className={s.main}>
+        <form className={s.main} onSubmit={login}>
             <div className={s.header +" mt-10 mb-6"}>
                 <p className="text text_type_main-medium">Вход</p>
             </div>
@@ -58,7 +57,7 @@ export  const  Login:FC = ()=> {
                 size={'default'}
                 extraClass="mb-6"
             />
-            <Button htmlType="submit" type="primary" size="medium" onClick={e => login(e)}>
+            <Button htmlType="submit" type="primary" size="medium" >
                 Войти
             </Button>
             <div className={s.bottom + " mt-20 "} >
@@ -70,7 +69,7 @@ export  const  Login:FC = ()=> {
                 <Link to={{ pathname: `/forgot-password` }} className="text text_type_main-default">Восстановить пароль</Link>
             </div>
 
-        </div>
+        </form>
 
     )
 }

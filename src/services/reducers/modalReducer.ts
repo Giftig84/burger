@@ -1,9 +1,13 @@
 import {
-    ORDER_REQUEST, CLEAR_ORDER, ORDER_SUCCESS, ORDER_ERROR
+    ORDER_REQUEST, CLEAR_ORDER, ORDER_SUCCESS, ORDER_ERROR, TModalOrderAction
 } from "../actions/modalActions";
 
-
-const defaultState = {
+export type TModalState = {
+    orderResponse: any;
+    isLoading: boolean;
+    hasError: boolean;
+}
+const defaultState: TModalState = {
 
     orderResponse: {
         "name": "",
@@ -16,7 +20,7 @@ const defaultState = {
     hasError: false
 }
 
-export const modalReducer= (state = defaultState, action) => {
+export const modalReducer= (state = defaultState, action: TModalOrderAction) => {
     switch (action.type) {
         case ORDER_REQUEST:
             return {...state, isLoading: true, hasError: false };

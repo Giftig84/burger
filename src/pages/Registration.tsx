@@ -1,20 +1,19 @@
-import React, {FC} from 'react';
+import React, {FC, FormEventHandler} from 'react';
 import  s from './Page.module.css'
 import { Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import {useDispatch, useSelector} from "react-redux";
 import { Navigate , Link } from "react-router-dom";
 import {authSelector} from "../services/selectors/selectors";
 import {userRegistration} from "../services/actions/userAction";
-import {TDispatch, TUser} from "../Types/types";
+import {TUser, useAppDispatch, useAppSelector} from "../Types/types";
 
 export  const  Registration:FC = () => {
     const [nameValue, setNameValue] = React.useState<string>('');
     const [emailValue, setEmailValue] = React.useState<string>('');
     const [passValue, setPassValue] = React.useState<string>('');
-    const dispatch: TDispatch = useDispatch();
-    const isAuth: boolean = useSelector(authSelector);
+    const dispatch = useAppDispatch();
+    const isAuth = useAppSelector(authSelector);
 
-    const registration = ((e: React.SyntheticEvent) => {
+    const registration: FormEventHandler<HTMLFormElement>  = ((e: React.SyntheticEvent) => {
         e.preventDefault();
         const userData: TUser = {
             email: emailValue,
@@ -33,7 +32,7 @@ export  const  Registration:FC = () => {
         );
     }
     return(
-        <div className={s.main}>
+        <form className={s.main} onSubmit={registration}>
             <div className={s.header +" mt-10 mb-6"}>
                 <p className="text text_type_main-medium"> Регистрация </p>
             </div>
@@ -71,7 +70,7 @@ export  const  Registration:FC = () => {
                 size={'default'}
                 extraClass="mb-6"
             />
-            <Button htmlType="submit" type="primary" size="medium" onClick={e => registration(e)}>
+            <Button htmlType="submit" type="primary" size="medium" >
                 Зарегистрироваться
             </Button>
             <div className={s.bottom + " mt-20 "} >
@@ -79,7 +78,7 @@ export  const  Registration:FC = () => {
                 <Link to={{ pathname: `/login` }} className="text text_type_main-default">Войти</Link>
             </div>
 
-        </div>
+        </form>
 
     )
 }

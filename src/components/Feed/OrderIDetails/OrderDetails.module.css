@@ -1,0 +1,48 @@
+.main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.header {
+    width: 640px;
+    text-align: center;
+}
+
+.doneOrder {
+    color: #00CCCC;
+    text-align: left;
+}
+
+.name {
+    width: 640px;
+    text-align: left;
+}
+.footer {
+    width: 640px;
+    display: flex;
+    flex-display: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.price {
+    display: flex;
+    flex-direction: row;
+}
+.scroll {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 194px;
+    margin-top: 20px;
+}
+.scroll::-webkit-scrollbar {
+    width: 10px;
+}
+
+.scroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+    background-color:  #2F2F37;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+    background: #8585AD;
+}

@@ -3,11 +3,11 @@ type TCookie = {
     [key: string]: number | string | boolean;
 }
 
-export function checkResponse(res: any) {
+export function checkResponse(res: Response) {
     if (res.ok) {
         return res.json();
     }
-    return Promise.reject(`Ошибка ${res.status} ${res.messages}`);
+    return Promise.reject(`Ошибка ${res.status}`);
 }
 
 export function setCookie(name: string, value: string | boolean, props?: TCookie): void {

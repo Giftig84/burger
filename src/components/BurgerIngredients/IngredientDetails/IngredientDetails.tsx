@@ -1,12 +1,19 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import  s from './IngredientDetails.module.css'
-import {useSelector} from "react-redux";
 import {ingredientsModalSelector} from "../../../services/selectors/selectors";
-import {TIngredient} from "../../../Types/types";
+import { useAppDispatch, useAppSelector} from "../../../Types/types";
+import {fetchModalIngredientRequest} from "../../../services/actions/modalDetailsActions";
+import {useParams} from "react-router-dom";
 
-const IngredientDetails:FC = () =>{
-const  details:TIngredient & {title: string} = useSelector(ingredientsModalSelector);
-    return(
+const IngredientDetails: FC = () => {
+    const details = useAppSelector(ingredientsModalSelector);
+    const dispatch = useAppDispatch();
+    const {id} = useParams();
+    useEffect(() => {
+        dispatch(fetchModalIngredientRequest(id));
+    }, []);
+    if (details)
+        return (
         <div className={s.main}>
             <div className={s.header +" ml-10 mt-10 mr-10"}>
                 <p className="text text_type_main-large"> Детали ингредиента </p>
@@ -41,6 +48,7 @@ const  details:TIngredient & {title: string} = useSelector(ingredientsModalSelec
 
         </div>
     )
+    else  return (<> </>)
 
 }
 
