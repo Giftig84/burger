@@ -7,13 +7,13 @@ import {
 } from '../actions/wsFeedsProfileAction';
 import type {TOrderResponse} from "../../Types/types";
 
-type TWSState = {
+export type TWSState = {
     wsConnected: boolean;
     feedProfile: TOrderResponse;
     error?: Event;
 }
 
-const defaultState: TWSState = {
+export const defaultState: TWSState = {
     wsConnected: false,
     feedProfile: {
         success: false,

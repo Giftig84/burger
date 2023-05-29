@@ -12,7 +12,7 @@ export  type  TModalFeedOrderState = {
     isLoading: boolean;
     hasError: boolean;
 }
-const defaultState: TModalFeedOrderState = {
+export const defaultState: TModalFeedOrderState = {
     modalDetails: [],
     isLoading: false,
     hasError: false

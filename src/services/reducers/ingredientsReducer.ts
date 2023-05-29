@@ -10,7 +10,7 @@ type TIngredientsReducerState = {
     currentTab: TIngrType;
     isLoading: boolean;
 }
-const defaultState: TIngredientsReducerState = {
+export const defaultState: TIngredientsReducerState = {
     arrIngredient: [],
     currentTab: "bun",
     isLoading: false

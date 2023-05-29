@@ -22,7 +22,7 @@ type TUserState = {
     isResetPsw: boolean;
     isChecked: boolean;
 }
-const defaultState: TUserState = {
+export const defaultState: TUserState = {
     user: {name: "", email: ""},
     isLoading: false,
     isError: false,

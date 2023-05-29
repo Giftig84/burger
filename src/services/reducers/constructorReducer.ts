@@ -13,7 +13,7 @@ type TConstructorReducerState = {
         success: boolean;
     }
 }
-const defaultState: TConstructorReducerState = {
+export const defaultState: TConstructorReducerState = {
     arrConstrIngr: [],
     orderResponse: {
         "name": "",

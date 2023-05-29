@@ -7,7 +7,7 @@ export type TModalState = {
     isLoading: boolean;
     hasError: boolean;
 }
-const defaultState: TModalState = {
+export const defaultState: TModalState = {
 
     orderResponse: {
         "name": "",
