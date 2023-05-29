@@ -13,7 +13,7 @@ export  type  TModalDetailsState = {
     isLoading: boolean;
     hasError: boolean;
 }
-const defaultState: TModalDetailsState = {
+export const defaultState: TModalDetailsState = {
     modalDetails: undefined,
     isLoading: false,
     hasError: false

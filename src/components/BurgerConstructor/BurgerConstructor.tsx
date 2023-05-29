@@ -66,13 +66,13 @@ const BurgerConstructor: FC = () => {
                                        </div>) : (<div className={"pt-10 ml-20 pl-15"}>
                            <p className="text text_type_main-medium "> Добавьте булку </p></div>)
                        }
-                       <div className={s.scroll }  >
+                       <div className={s.scroll }  data-test="dropArea">
                            { order.length >0 ? (
                                order.map((el, index) => {
                               return(
                                        <DragItem key={el.id} el={el} index={index} sortIngredients={sortIngredients}/>
                                       )
-                               })) : (<div className={"ml-20 mt-25 pt-30"}><p className="text text_type_main-medium "> Добавьте игредиенты в бургер </p></div>)
+                               })) : (<div className={"ml-20 mt-25 pt-30"}><p className="text text_type_main-medium ">Добавьте игредиенты в бургер</p></div>)
 
                            }
                        </div>

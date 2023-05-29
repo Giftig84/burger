@@ -15,9 +15,9 @@ const Ingredient: FC<TProps>=(props) => {
     const location = useLocation();
 
     return (
-        <Link to={`/ingredients/${props._id}` }  state={{background: location}} className={s.link}>
+        <Link to={`/ingredients/${props._id}` }  state={{background: location}} className={s.link} >
 
-            <div className={s.main} ref={dragRef}>
+            <div className={s.main} ref={dragRef} data-test="ingr">
                 <div>
                     {props.count > 0 &&
                         <div className={s.counter}>

@@ -26,7 +26,7 @@ const Modal:FC<TProps> = (props)=>{
             <>
                 <ModalOverlay closeModal={closeModal} />
                 <div className={s.modal}>
-                    <div className={s.img}>
+                    <div className={s.img}  data-test="closeWindow">
                         <CloseIcon type='primary' onClick={closeModal} />
                     </div>
                     {children}
